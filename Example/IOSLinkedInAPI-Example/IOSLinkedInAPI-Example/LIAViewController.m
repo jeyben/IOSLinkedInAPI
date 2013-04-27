@@ -20,8 +20,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+
+    NSArray *grantedAccess = @[@"r_fullprofile", @"r_network"];
+    NSString *state = @"DCEEFWF45453sdffef424"; //A long unique string value of your choice that is hard to guess. Used to prevent CSRF
     //load the the secret data from an uncommitted LIALinkedInClientExampleCredentials.h file
-    LIALinkedInApplication *application = [LIALinkedInApplication applicationWithRedirectURL:@"http://www.ancientprogramming.com" clientId:LINKEDIN_CLIENT_ID clientSecret:LINKEDIN_CLIENT_SECRET];
+    LIALinkedInApplication *application = [LIALinkedInApplication applicationWithRedirectURL:@"http://www.ancientprogramming.com" clientId:LINKEDIN_CLIENT_ID clientSecret:LINKEDIN_CLIENT_SECRET state:state grantedAccess:grantedAccess];
     LIALinkedInHttpClient *client = [LIALinkedInHttpClient clientForApplication:application];
 
 }

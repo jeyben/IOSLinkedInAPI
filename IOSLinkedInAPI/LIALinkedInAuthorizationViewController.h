@@ -1,4 +1,4 @@
-// LIALinkedInApplication.m
+// LIALinkedInAuthorizationViewController.h
 //
 // Copyright (c) 2013 Ancientprogramming
 //
@@ -19,32 +19,18 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-
-
+#import <UIKit/UIKit.h>
 #import "LIALinkedInApplication.h"
 
+typedef void(^LIAAuthorizationCodeSuccessCallback)(NSString *code);
+typedef void(^LIAAuthorizationCodeFailureCallback)(NSError *errorReason);
 
-@implementation LIALinkedInApplication
+static NSString *const LINKEDIN_CODE_URL_SUFFIX = @"&state=foobar";
 
-- (id)initWithRedirectURL:(NSString *)redirectURL clientId:(NSString *)clientId clientSecret:(NSString *)clientSecret state:(NSString *)state grantedAccess:(NSArray *)grantedAccess {
-    self = [super init];
-    if (self) {
-        self.redirectURL = redirectURL;
-        self.clientId = clientId;
-        self.clientSecret = clientSecret;
-        self.state = state;
-        self.grantedAccess = grantedAccess;
-    }
+static NSString *const LINKEDIN_CODE_URL_PREFIX = @"%@/?code=";
 
-    return self;
-}
+@interface LIALinkedInAuthorizationViewController : UIViewController
 
-+ (id)applicationWithRedirectURL:(NSString *)redirectURL clientId:(NSString *)clientId clientSecret:(NSString *)clientSecret state:(NSString *)state grantedAccess:(NSArray *)grantedAccess {
-    return [[self alloc] initWithRedirectURL:redirectURL clientId:clientId clientSecret:clientSecret state:state grantedAccess:grantedAccess];
-}
-
-- (NSString *)grantedAccessString {
-    return [self.grantedAccess componentsJoinedByString: @"%20"];
-}
+- (id)initWithApplication:(LIALinkedInApplication *)application andSuccess:(LIAAuthorizationCodeSuccessCallback)success andFailure:(LIAAuthorizationCodeFailureCallback)failure;
 
 @end

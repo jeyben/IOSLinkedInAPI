@@ -29,9 +29,16 @@
 @property(nonatomic, copy) NSString *redirectURL;
 @property(nonatomic, copy) NSString *clientId;
 @property(nonatomic, copy) NSString *clientSecret;
+@property(nonatomic, copy) NSString *state;
 
-- (id)initWithRedirectURL:(NSString *)redirectURL clientId:(NSString *)clientId clientSecret:(NSString *)clientSecret;
+//the list of grantedAccess granted to the application when authorizing through LinkedIn
+@property(nonatomic, strong) NSArray *grantedAccess;
 
-+ (id)applicationWithRedirectURL:(NSString *)redirectURL clientId:(NSString *)clientId clientSecret:(NSString *)clientSecret;
+- (id)initWithRedirectURL:(NSString *)redirectURL clientId:(NSString *)clientId clientSecret:(NSString *)clientSecret state:(NSString *)state grantedAccess:(NSArray *)grantedAccess;
+
++ (id)applicationWithRedirectURL:(NSString *)redirectURL clientId:(NSString *)clientId clientSecret:(NSString *)clientSecret state:(NSString *)state grantedAccess:(NSArray *)grantedAccess;
+
+- (NSString *)grantedAccessString;
+
 
 @end
