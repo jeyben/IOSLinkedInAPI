@@ -90,7 +90,6 @@ NSString *kLinkedInDeniedByUser = @"the+user+denied+your+request";
 @implementation LIALinkedInAuthorizationViewController (UIWebViewDelegate)
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-    NSLog(@"About to load request: %@", [[request URL] absoluteString]);
     NSString *url = [[request URL] absoluteString];
     if ([url hasPrefix:self.application.redirectURL]) {
         if ([url rangeOfString:@"error"].location != NSNotFound) {
@@ -102,7 +101,6 @@ NSString *kLinkedInDeniedByUser = @"the+user+denied+your+request";
                 self.failureCallback(error);
             }
         } else {
-            NSLog(@"extracting the code from the URL %@", url);
             //extract the code from the url
             NSString *successPrefix = [NSString stringWithFormat:LINKEDIN_CODE_URL_PREFIX, self.application.redirectURL];
             NSString *successSuffix = [NSString stringWithFormat:LINKEDIN_CODE_URL_SUFFIX, self.application.state];
