@@ -64,7 +64,6 @@ NSString *kLinkedInDeniedByUser = @"the+user+denied+your+request";
     self.authenticationWebView.delegate = self;
     [self.view addSubview:self.authenticationWebView];
 
-    //todo: assumes a navigation controller exists which isn't always true
     self.navigationController.navigationBarHidden = YES;
 
     NSString *linkedIn = [NSString stringWithFormat:@"https://www.linkedin.com/uas/oauth2/authorization?response_type=code&client_id=%@&scope=%@&state=foobar&redirect_uri=%@", self.application.clientId, self.application.grantedAccessString, self.application.redirectURL];
