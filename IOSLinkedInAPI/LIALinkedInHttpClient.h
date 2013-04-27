@@ -27,4 +27,8 @@
 @interface LIALinkedInHttpClient : AFHTTPClient
 
 + (LIALinkedInHttpClient *)clientForApplication:(LIALinkedInApplication *)application;
+
+- (void)getAccessToken:(NSString *)authorizationCode success:(void (^)(NSDictionary *))success failure:(void (^)(NSError *))failure;
+
+- (void)getAuthorizationCode:(void (^)(NSString *))success cancel:(void (^)(void))cancel failure:(void (^)(NSError *))failure;
 @end

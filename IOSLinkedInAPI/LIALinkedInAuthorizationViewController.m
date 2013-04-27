@@ -21,8 +21,6 @@
 // THE SOFTWARE.
 #import "LIALinkedInAuthorizationViewController.h"
 
-NSInteger kLinkedInAuthenticationCancelledByUser = 1;
-NSInteger kLinkedInAuthenticationFailed = 2;
 NSString *kLinkedInErrorDomain = @"LIALinkedInERROR";
 NSString *kLinkedInDeniedByUser = @"the+user+denied+your+request";
 
@@ -30,6 +28,7 @@ NSString *kLinkedInDeniedByUser = @"the+user+denied+your+request";
 @property(nonatomic, strong) UIWebView *authenticationWebView;
 @property(nonatomic, copy) LIAAuthorizationCodeFailureCallback failureCallback;
 @property(nonatomic, copy) LIAAuthorizationCodeSuccessCallback successCallback;
+@property(nonatomic, copy) LIAAuthorizationCodeCancelCallback cancelCallback;
 @property(nonatomic, strong) LIALinkedInApplication *application;
 @end
 
@@ -40,7 +39,6 @@ NSString *kLinkedInDeniedByUser = @"the+user+denied+your+request";
 //todo: handle no network
 @implementation LIALinkedInAuthorizationViewController
 
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
@@ -49,17 +47,16 @@ NSString *kLinkedInDeniedByUser = @"the+user+denied+your+request";
     return self;
 }
 
-- (id)initWithApplication:(LIALinkedInApplication *)application andSuccess:(LIAAuthorizationCodeSuccessCallback)success andFailure:(LIAAuthorizationCodeFailureCallback)failure {
+- (id)initWithApplication:(LIALinkedInApplication *)application success:(LIAAuthorizationCodeSuccessCallback)success cancel:(LIAAuthorizationCodeCancelCallback)cancel failure:(LIAAuthorizationCodeFailureCallback)failure {
     self = [super init];
     if (self) {
         self.application = application;
         self.successCallback = success;
+        self.cancelCallback = cancel;
         self.failureCallback = failure;
     }
-
     return self;
 }
-
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -82,15 +79,19 @@ NSString *kLinkedInDeniedByUser = @"the+user+denied+your+request";
 @end
 
 @implementation LIALinkedInAuthorizationViewController (UIWebViewDelegate)
+
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     NSLog(@"About to load request: %@", [[request URL] absoluteString]);
     NSString *url = [[request URL] absoluteString];
     if ([url hasPrefix:self.application.redirectURL]) {
         if ([url rangeOfString:@"error"].location != NSNotFound) {
             BOOL accessDenied = [url rangeOfString:kLinkedInDeniedByUser].location != NSNotFound;
-            NSInteger errorCode = accessDenied ? kLinkedInAuthenticationCancelledByUser : kLinkedInAuthenticationFailed;
-            NSError *error = [[NSError alloc] initWithDomain:kLinkedInErrorDomain code:errorCode userInfo:[[NSMutableDictionary alloc] init]];
-            self.failureCallback(error);
+            if (accessDenied) {
+                self.cancelCallback();
+            } else {
+                NSError *error = [[NSError alloc] initWithDomain:kLinkedInErrorDomain code:1 userInfo:[[NSMutableDictionary alloc] init]];
+                self.failureCallback(error);
+            }
         } else {
             NSLog(@"extracting the code from the URL %@", url);
             //extract the code from the url

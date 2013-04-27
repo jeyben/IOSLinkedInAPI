@@ -23,6 +23,7 @@
 #import "LIALinkedInApplication.h"
 
 typedef void(^LIAAuthorizationCodeSuccessCallback)(NSString *code);
+typedef void(^LIAAuthorizationCodeCancelCallback)(void);
 typedef void(^LIAAuthorizationCodeFailureCallback)(NSError *errorReason);
 
 static NSString *const LINKEDIN_CODE_URL_SUFFIX = @"&state=foobar";
@@ -31,6 +32,5 @@ static NSString *const LINKEDIN_CODE_URL_PREFIX = @"%@/?code=";
 
 @interface LIALinkedInAuthorizationViewController : UIViewController
 
-- (id)initWithApplication:(LIALinkedInApplication *)application andSuccess:(LIAAuthorizationCodeSuccessCallback)success andFailure:(LIAAuthorizationCodeFailureCallback)failure;
-
+- (id)initWithApplication:(LIALinkedInApplication *)application success:(LIAAuthorizationCodeSuccessCallback)success cancel:(LIAAuthorizationCodeCancelCallback)cancel failure:(LIAAuthorizationCodeFailureCallback)failure;
 @end

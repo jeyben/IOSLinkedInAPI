@@ -13,6 +13,7 @@
 
 @interface LIAViewController ()
 
+@property(nonatomic, strong) LIALinkedInHttpClient *client;
 @end
 
 @implementation LIAViewController
@@ -20,12 +21,37 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-
     NSArray *grantedAccess = @[@"r_fullprofile", @"r_network"];
-    NSString *state = @"DCEEFWF45453sdffef424"; //A long unique string value of your choice that is hard to guess. Used to prevent CSRF
+
     //load the the secret data from an uncommitted LIALinkedInClientExampleCredentials.h file
-    LIALinkedInApplication *application = [LIALinkedInApplication applicationWithRedirectURL:@"http://www.ancientprogramming.com" clientId:LINKEDIN_CLIENT_ID clientSecret:LINKEDIN_CLIENT_SECRET state:state grantedAccess:grantedAccess];
-    LIALinkedInHttpClient *client = [LIALinkedInHttpClient clientForApplication:application];
+    NSString *clientId = LINKEDIN_CLIENT_ID; //the client secret you get from the registered LinkedIn application
+    NSString *clientSecret = LINKEDIN_CLIENT_SECRET; //the client secret you get from the registered LinkedIn application
+    NSString *state = @"DCEEFWF45453sdffef424"; //A long unique string value of your choice that is hard to guess. Used to prevent CSRF
+    LIALinkedInApplication *application = [LIALinkedInApplication applicationWithRedirectURL:@"http://www.ancientprogramming.com" clientId:clientId clientSecret:clientSecret state:state grantedAccess:grantedAccess];
+    self.client = [LIALinkedInHttpClient clientForApplication:application];
+
+    UIButton *loginButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    loginButton.frame = CGRectMake(0, 0, 300, 44);
+    loginButton.center = CGPointMake(CGRectGetMidX(self.view.frame), 50);
+    [loginButton setTitle:@"Login to LinkedIn" forState:UIControlStateNormal];
+    [self.view addSubview:loginButton];
+
+    [loginButton addTarget:self action:@selector(didPressLogin:) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void) didPressLogin: (id) sender {
+    NSLog(@"did press login");
+    [self.client getAuthorizationCode:^(NSString * code) {
+        [self.client getAccessToken:code success:^(NSDictionary *accessToken) {
+            NSLog(@"fetched accesstoken %@", accessToken);
+        } failure:^(NSError *error) {
+            NSLog(@"Quering accessToken failed %@", error);
+        }];
+    } cancel:^{
+        NSLog(@"Authorization was cancelled by user");
+    } failure:^(NSError *error) {
+        NSLog(@"Authorization failed %@", error);
+    }];
 
 }
 
