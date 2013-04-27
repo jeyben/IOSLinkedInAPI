@@ -16,3 +16,5 @@ profile
 *.moved-aside
 DerivedData
 .idea/
+
+Example/IOSLinkedInAPI-Example/IOSLinkedInAPI-Example.xcodeproj/
