@@ -7,6 +7,9 @@
 //
 
 #import "LIAViewController.h"
+#import "LIALinkedInHttpClient.h"
+#import "LIALinkedInApplication.h"
+#import "LIALinkedInClientExampleCredentials.h"
 
 @interface LIAViewController ()
 
@@ -14,14 +17,16 @@
 
 @implementation LIAViewController
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+
+    //load the the secret data from an uncommitted LIALinkedInClientExampleCredentials.h file
+    LIALinkedInApplication *application = [LIALinkedInApplication applicationWithRedirectURL:@"http://www.ancientprogramming.com" clientId:LINKEDIN_CLIENT_ID clientSecret:LINKEDIN_CLIENT_SECRET];
+    LIALinkedInHttpClient *client = [LIALinkedInHttpClient clientForApplication:application];
+
 }
 
-- (void)didReceiveMemoryWarning
-{
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
