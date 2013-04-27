@@ -82,13 +82,11 @@
 }
 
 - (void)showAuthorizationView:(LIALinkedInAuthorizationViewController *)authorizationViewController {
-    //todo: handle rootViews not being a navigationController
     UIViewController *rootViewController = [[UIApplication sharedApplication] keyWindow].rootViewController;
     [rootViewController presentViewController:authorizationViewController animated:YES completion:nil];
 }
 
 - (void)hideAuthenticateView {
-    //todo: handle rootViews not being a navigationController
     UIViewController *rootViewController = [[UIApplication sharedApplication] keyWindow].rootViewController;
     [rootViewController dismissViewControllerAnimated:YES completion:nil];
 }
