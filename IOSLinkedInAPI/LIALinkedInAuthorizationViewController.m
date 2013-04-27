@@ -30,6 +30,7 @@ NSString *kLinkedInDeniedByUser = @"the+user+denied+your+request";
 @property(nonatomic, copy) LIAAuthorizationCodeSuccessCallback successCallback;
 @property(nonatomic, copy) LIAAuthorizationCodeCancelCallback cancelCallback;
 @property(nonatomic, strong) LIALinkedInApplication *application;
+@property(nonatomic, strong) UIActivityIndicatorView *activityIndicatorView;
 @end
 
 @interface LIALinkedInAuthorizationViewController (UIWebViewDelegate) <UIWebViewDelegate>
@@ -60,8 +61,17 @@ NSString *kLinkedInDeniedByUser = @"the+user+denied+your+request";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor whiteColor];
+
+    self.activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    self.activityIndicatorView.center = self.view.center;
+    self.activityIndicatorView.hidesWhenStopped = YES;
+    [self.activityIndicatorView startAnimating];
+    [self.view addSubview:self.activityIndicatorView];
+
     self.authenticationWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     self.authenticationWebView.delegate = self;
+    self.authenticationWebView.hidden = YES;
     [self.view addSubview:self.authenticationWebView];
 
     self.navigationController.navigationBarHidden = YES;
@@ -102,6 +112,11 @@ NSString *kLinkedInDeniedByUser = @"the+user+denied+your+request";
         return NO;
     }
     return YES;
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+    [self.activityIndicatorView stopAnimating];
+    self.authenticationWebView.hidden = NO;
 }
 
 @end
