@@ -80,14 +80,11 @@ static NSString *const LINKEDIN_CODE_URL_PREFIX = @"%@/?code=";
     [self.view addSubview:self.authenticationWebView];
 
     self.navigationController.navigationBarHidden = YES;
-
-    NSString *linkedIn = [NSString stringWithFormat:@"https://www.linkedin.com/uas/oauth2/authorization?response_type=code&client_id=%@&scope=%@&state=%@&redirect_uri=%@", self.application.clientId, self.application.grantedAccessString, self.application.state, self.application.redirectURL];
-    [self.authenticationWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:linkedIn]]];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)viewDidAppear:(BOOL)animated {
+    NSString *linkedIn = [NSString stringWithFormat:@"https://www.linkedin.com/uas/oauth2/authorization?response_type=code&client_id=%@&scope=%@&state=%@&redirect_uri=%@", self.application.clientId, self.application.grantedAccessString, self.application.state, self.application.redirectURL];
+    [self.authenticationWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:linkedIn]]];
 }
 
 @end
@@ -122,6 +119,10 @@ static NSString *const LINKEDIN_CODE_URL_PREFIX = @"%@/?code=";
         return NO;
     }
     return YES;
+}
+
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
+    self.failureCallback(error);
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
