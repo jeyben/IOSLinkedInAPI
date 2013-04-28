@@ -76,7 +76,7 @@ NSString *kLinkedInDeniedByUser = @"the+user+denied+your+request";
 
     self.navigationController.navigationBarHidden = YES;
 
-    NSString *linkedIn = [NSString stringWithFormat:@"https://www.linkedin.com/uas/oauth2/authorization?response_type=code&client_id=%@&scope=%@&state=foobar&redirect_uri=%@", self.application.clientId, self.application.grantedAccessString, self.application.redirectURL];
+    NSString *linkedIn = [NSString stringWithFormat:@"https://www.linkedin.com/uas/oauth2/authorization?response_type=code&client_id=%@&scope=%@&state=%@&redirect_uri=%@", self.application.clientId, self.application.grantedAccessString, self.application.state, self.application.redirectURL];
     [self.authenticationWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:linkedIn]]];
 }
 
