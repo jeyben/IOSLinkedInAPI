@@ -101,11 +101,18 @@ NSString *kLinkedInDeniedByUser = @"the+user+denied+your+request";
                 self.failureCallback(error);
             }
         } else {
-            //extract the code from the url
             NSString *successPrefix = [NSString stringWithFormat:LINKEDIN_CODE_URL_PREFIX, self.application.redirectURL];
             NSString *successSuffix = [NSString stringWithFormat:LINKEDIN_CODE_URL_SUFFIX, self.application.state];
-            NSString *authorizationCode = [url substringWithRange:NSMakeRange([successPrefix length], [url length] - [successPrefix length] - [successSuffix length])];
-            self.successCallback(authorizationCode);
+
+            //assert that the state is as we expected it to be
+            if ([url hasSuffix:successSuffix]) {
+                //extract the code from the url
+                NSString *authorizationCode = [url substringWithRange:NSMakeRange([successPrefix length], [url length] - [successPrefix length] - [successSuffix length])];
+                self.successCallback(authorizationCode);
+            } else {
+                NSError *error = [[NSError alloc] initWithDomain:kLinkedInErrorDomain code:2 userInfo:[[NSMutableDictionary alloc] init]];
+                self.failureCallback(error);
+            }
         }
         return NO;
     }
