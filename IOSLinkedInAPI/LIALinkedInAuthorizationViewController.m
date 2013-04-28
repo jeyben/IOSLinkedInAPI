@@ -24,6 +24,11 @@
 NSString *kLinkedInErrorDomain = @"LIALinkedInERROR";
 NSString *kLinkedInDeniedByUser = @"the+user+denied+your+request";
 
+static NSString *const LINKEDIN_CODE_URL_SUFFIX = @"&state=%@";
+
+static NSString *const LINKEDIN_CODE_URL_PREFIX = @"%@/?code=";
+
+
 @interface LIALinkedInAuthorizationViewController ()
 @property(nonatomic, strong) UIWebView *authenticationWebView;
 @property(nonatomic, copy) LIAAuthorizationCodeFailureCallback failureCallback;
