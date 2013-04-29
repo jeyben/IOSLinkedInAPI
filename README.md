@@ -26,7 +26,7 @@ LIALinkedInHttpClient *client = [LIALinkedInHttpClient clientForApplication:appl
 * clientSecret: The secret which is provided by LinkedIn, when registering an application.
 * grantedAccess: An array telling which access the application would like to be granted by the enduser. See full list here: http://developer.linkedin.com/documents/authentication
 
-Afterwards the client can be used to retrieve an accesstoken:
+Afterwards the client can be used to retrieve an accesstoken and access the data using the LinkedIn API:
 ``` objective-c
 client getAuthorizationCode:^(NSString * code) {
     [self.client getAccessToken:code success:^(NSDictionary *accessTokenData) {
@@ -46,6 +46,7 @@ client getAuthorizationCode:^(NSString * code) {
 }];
 
 ```
+The code above retrieves an access code and uses it to get data regarding the user which granted the access.
 
 Next step
 --------------------
