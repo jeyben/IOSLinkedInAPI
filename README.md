@@ -26,8 +26,13 @@ LIALinkedInHttpClient *client = [LIALinkedInHttpClient clientForApplication:appl
 Afterwards the client can be used to retrieve an accesstoken:
 ``` objective-c
 client getAuthorizationCode:^(NSString * code) {
-    [self.client getAccessToken:code success:^(NSDictionary *accessToken) {
-        NSLog(@"fetched accesstoken %@", accessToken);
+    [self.client getAccessToken:code success:^(NSDictionary *accessTokenData) {
+        NSString *accessToken = [accessTokenData objectForKey:@"access_token"];
+        [self.client getPath:[NSString stringWithFormat:@"https://api.linkedin.com/v1/people/~?oauth2_access_token=%@&format=json", accessToken] parameters:nil success:^(AFHTTPRequestOperation * operation, NSDictionary *result) {
+            NSLog(@"current user %@", result);
+        } failure:^(AFHTTPRequestOperation * operation, NSError *error) {
+            NSLog(@"failed to fetch current user %@", error);
+        }];
     } failure:^(NSError *error) {
         NSLog(@"Quering accessToken failed %@", error);
     }];
@@ -38,3 +43,12 @@ client getAuthorizationCode:^(NSString * code) {
 }];
 
 ```
+
+Room for improvement
+--------------------
+The library is currently only handling the authentication and authorization.
+I would like to improve the libary to also make it easy to do the actually API calls.
+My current thought is to let the client remember the accessToken after it is retrieved and afterwards automatically append it to futher calls along with the format=json GET parameter.
+
+If you have other good ideas of how that could be implemented let me know.
+Hope you find the library useful, and let me know if you have suggestions
