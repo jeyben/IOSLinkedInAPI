@@ -44,11 +44,12 @@ client getAuthorizationCode:^(NSString * code) {
 
 ```
 
-Room for improvement
+Next step
 --------------------
 The library is currently only handling the authentication and authorization.
 I would like to improve the libary to also make it easy to do the actually API calls.
 My current thought is to let the client remember the accessToken after it is retrieved and afterwards automatically append it to futher calls along with the format=json GET parameter.
 
 If you have other good ideas of how that could be implemented let me know.
-Hope you find the library useful, and let me know if you have suggestions
+
+http://www.ancientprogramming.com
