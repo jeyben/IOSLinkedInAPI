@@ -8,6 +8,12 @@ The API uses a UIWebView to authenticate against LinkedIn.
 
 If the enduser is authenticated you end up with an accesstoken that is nessesary to retrieve data from the LinkedIn [API](https://developer.linkedin.com/apis)
 
+How To Get Started
+------------------
+The library can be fetched as a Pod from [cocoapods](http://cocoapods.org/?q=ioslinkedinapi)
+
+If you aren't using Cocoapods you can always download the libary and import the files from the folder IOSLinkedInAPI into your existing project.
+
 Example
 -------
 
