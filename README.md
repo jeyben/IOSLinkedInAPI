@@ -8,6 +8,11 @@ The API uses a UIWebView to authenticate against LinkedIn.
 
 If the enduser is authenticated you end up with an accesstoken that is nessesary to retrieve data from the LinkedIn [API](https://developer.linkedin.com/apis)
 
+Why this library?
+-----------------
+Why yet another LinkedIn library?
+Although there already exists a couple of iOS libraries which is wrapping the LinkedIn API, none of them *(at least to my knowledge)* is using OAuth2 which is the preferred protocol according to LinkedIn.
+
 How To Get Started
 ------------------
 The library can be fetched as a Pod from [cocoapods](http://cocoapods.org/?q=ioslinkedinapi)
