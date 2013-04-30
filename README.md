@@ -50,9 +50,10 @@ client getAuthorizationCode:^(NSString * code) {
 } failure:^(NSError *error) {
     NSLog(@"Authorization failed %@", error);
 }];
-
 ```
-The code above retrieves an access code and uses it to get data regarding the user which granted the access.
+The code above retrieves an access code and uses it to get userdata for the user which granted the access.
+The cancel callback is executed in case the user actively declines the authorization by pressing cancel button in the UIWebView (see illustration above).
+The failure callbacks is executed in case either the of the steps fails for some reason.
 
 Next step
 --------------------
