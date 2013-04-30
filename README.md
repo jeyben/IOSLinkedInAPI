@@ -27,9 +27,9 @@ LIALinkedInApplication *application = [LIALinkedInApplication applicationWithRed
                                                                                grantedAccess:@[@"r_fullprofile", @"r_network"]];
 LIALinkedInHttpClient *client = [LIALinkedInHttpClient clientForApplication:application];
 ```
-* redirectURL: has to be a http or https url (required by LinkedIn), but other than that, the endpoint doesn't have to respond anything. The library only uses the endpoint to known when to intercept calls in the UIWebView.
-* clientId: The id which is provided by LinkedIn, when registering an application.
-* clientSecret: The secret which is provided by LinkedIn, when registering an application.
+* redirectURL: has to be a http or https url (required by LinkedIn), but other than that, the endpoint doesn't have to respond anything. The library only uses the endpoint to know when to intercept calls in the UIWebView.
+* clientId: The id which is provided by LinkedIn upon registering an application.
+* clientSecret: The secret which is provided by LinkedIn upon registering an application.
 * grantedAccess: An array telling which access the application would like to be granted by the enduser. See full list here: http://developer.linkedin.com/documents/authentication
 
 Afterwards the client can be used to retrieve an accesstoken and access the data using the LinkedIn API:
@@ -57,10 +57,10 @@ The failure callbacks is executed in case either the of the steps fails for some
 
 Next step
 --------------------
-The library is currently only handling the authentication and authorization.
+The library is currently  handling the authentication and authorization.
 I would like to improve the libary to also make it easy to do the actually API calls.
 My current thought is to let the client remember the accessToken after it is retrieved and afterwards automatically append it to futher calls along with the format=json GET parameter.
 
-If you have other good ideas of how that could be implemented let me know.
+If you have ideas of how that could be implemented let me know.
 
 http://www.ancientprogramming.com
