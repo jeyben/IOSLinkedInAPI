@@ -22,6 +22,7 @@
 #import "LIALinkedInHttpClient.h"
 #import "AFJSONRequestOperation.h"
 #import "LIALinkedInAuthorizationViewController.h"
+#import "NSString+LIAEncode.h"
 
 @interface LIALinkedInHttpClient ()
 @property(nonatomic, strong) LIALinkedInApplication *application;
@@ -49,8 +50,8 @@
 
 - (void)getAccessToken:(NSString *)authorizationCode success:(void (^)(NSDictionary *))success failure:(void (^)(NSError *))failure {
     NSString *accessTokenUrl = @"/uas/oauth2/accessToken?grant_type=authorization_code&code=%@&redirect_uri=%@&client_id=%@&client_secret=%@";
-    NSString *url = [NSString stringWithFormat:accessTokenUrl, authorizationCode, self.application.redirectURL, self.application.clientId, self.application.clientSecret];
-    [self getPath:url parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *accessToken) {
+    NSString *url = [NSString stringWithFormat:accessTokenUrl, authorizationCode, [self.application.redirectURL LIAEncode], self.application.clientId, self.application.clientSecret];
+    [self postPath:url parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *accessToken) {
         success(accessToken);
     }     failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         failure(error);

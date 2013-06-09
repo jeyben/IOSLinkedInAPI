@@ -20,13 +20,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #import "LIALinkedInAuthorizationViewController.h"
+#import "NSString+LIAEncode.h"
 
 NSString *kLinkedInErrorDomain = @"LIALinkedInERROR";
 NSString *kLinkedInDeniedByUser = @"the+user+denied+your+request";
 
 static NSString *const LINKEDIN_CODE_URL_SUFFIX = @"&state=%@";
 
-static NSString *const LINKEDIN_CODE_URL_PREFIX = @"%@/?code=";
+static NSString *const LINKEDIN_CODE_URL_PREFIX = @"%@?code=";
 
 
 @interface LIALinkedInAuthorizationViewController ()
@@ -83,7 +84,7 @@ static NSString *const LINKEDIN_CODE_URL_PREFIX = @"%@/?code=";
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    NSString *linkedIn = [NSString stringWithFormat:@"https://www.linkedin.com/uas/oauth2/authorization?response_type=code&client_id=%@&scope=%@&state=%@&redirect_uri=%@", self.application.clientId, self.application.grantedAccessString, self.application.state, self.application.redirectURL];
+    NSString *linkedIn = [NSString stringWithFormat:@"https://www.linkedin.com/uas/oauth2/authorization?response_type=code&client_id=%@&scope=%@&state=%@&redirect_uri=%@", self.application.clientId, self.application.grantedAccessString, self.application.state, [self.application.redirectURL LIAEncode];
     [self.authenticationWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:linkedIn]]];
 }
 
