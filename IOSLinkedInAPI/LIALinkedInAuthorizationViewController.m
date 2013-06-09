@@ -20,13 +20,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #import "LIALinkedInAuthorizationViewController.h"
+#import "NSString+LIAEncode.h"
 
 NSString *kLinkedInErrorDomain = @"LIALinkedInERROR";
 NSString *kLinkedInDeniedByUser = @"the+user+denied+your+request";
 
 static NSString *const LINKEDIN_CODE_URL_SUFFIX = @"&state=%@";
 
-static NSString *const LINKEDIN_CODE_URL_PREFIX = @"%@/?code=";
+static NSString *const LINKEDIN_CODE_URL_PREFIX = @"%@?code=";
 
 
 @interface LIALinkedInAuthorizationViewController ()
@@ -44,6 +45,8 @@ static NSString *const LINKEDIN_CODE_URL_PREFIX = @"%@/?code=";
 
 //todo: handle no network
 @implementation LIALinkedInAuthorizationViewController
+
+BOOL preventLoading;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -83,7 +86,7 @@ static NSString *const LINKEDIN_CODE_URL_PREFIX = @"%@/?code=";
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    NSString *linkedIn = [NSString stringWithFormat:@"https://www.linkedin.com/uas/oauth2/authorization?response_type=code&client_id=%@&scope=%@&state=%@&redirect_uri=%@", self.application.clientId, self.application.grantedAccessString, self.application.state, self.application.redirectURL];
+    NSString *linkedIn = [NSString stringWithFormat:@"https://www.linkedin.com/uas/oauth2/authorization?response_type=code&client_id=%@&scope=%@&state=%@&redirect_uri=%@", self.application.clientId, self.application.grantedAccessString, self.application.state, [self.application.redirectURL LIAEncode];
     [self.authenticationWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:linkedIn]]];
 }
 
@@ -93,7 +96,10 @@ static NSString *const LINKEDIN_CODE_URL_PREFIX = @"%@/?code=";
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     NSString *url = [[request URL] absoluteString];
-    if ([url hasPrefix:self.application.redirectURL]) {
+	
+	preventLoading = [url hasPrefix:self.application.redirectURL];
+	
+    if (preventLoading) {
         if ([url rangeOfString:@"error"].location != NSNotFound) {
             BOOL accessDenied = [url rangeOfString:kLinkedInDeniedByUser].location != NSNotFound;
             if (accessDenied) {
@@ -116,13 +122,14 @@ static NSString *const LINKEDIN_CODE_URL_PREFIX = @"%@/?code=";
                 self.failureCallback(error);
             }
         }
-        return NO;
     }
-    return YES;
+	
+    return preventLoading;
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
-    self.failureCallback(error);
+	if (! preventLoading)
+		self.failureCallback(error);
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
