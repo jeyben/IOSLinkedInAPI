@@ -25,11 +25,6 @@
 NSString *kLinkedInErrorDomain = @"LIALinkedInERROR";
 NSString *kLinkedInDeniedByUser = @"the+user+denied+your+request";
 
-static NSString *const LINKEDIN_CODE_URL_SUFFIX = @"&state=%@";
-
-static NSString *const LINKEDIN_CODE_URL_PREFIX = @"%@?code=";
-
-
 @interface LIALinkedInAuthorizationViewController ()
 @property(nonatomic, strong) UIWebView *authenticationWebView;
 @property(nonatomic, copy) LIAAuthorizationCodeFailureCallback failureCallback;
@@ -46,7 +41,7 @@ static NSString *const LINKEDIN_CODE_URL_PREFIX = @"%@?code=";
 //todo: handle no network
 @implementation LIALinkedInAuthorizationViewController
 
-BOOL preventLoading;
+BOOL handlingRedirectURL;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -86,7 +81,7 @@ BOOL preventLoading;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    NSString *linkedIn = [NSString stringWithFormat:@"https://www.linkedin.com/uas/oauth2/authorization?response_type=code&client_id=%@&scope=%@&state=%@&redirect_uri=%@", self.application.clientId, self.application.grantedAccessString, self.application.state, [self.application.redirectURL LIAEncode];
+    NSString *linkedIn = [NSString stringWithFormat:@"https://www.linkedin.com/uas/oauth2/authorization?response_type=code&client_id=%@&scope=%@&state=%@&redirect_uri=%@", self.application.clientId, self.application.grantedAccessString, self.application.state, [self.application.redirectURL LIAEncode]];
     [self.authenticationWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:linkedIn]]];
 }
 
@@ -96,10 +91,11 @@ BOOL preventLoading;
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     NSString *url = [[request URL] absoluteString];
-	
-	preventLoading = [url hasPrefix:self.application.redirectURL];
-	
-    if (preventLoading) {
+
+    //prevent loading URL if it is the redirectURL
+    handlingRedirectURL = [url hasPrefix:self.application.redirectURL];
+
+    if (handlingRedirectURL) {
         if ([url rangeOfString:@"error"].location != NSNotFound) {
             BOOL accessDenied = [url rangeOfString:kLinkedInDeniedByUser].location != NSNotFound;
             if (accessDenied) {
@@ -109,13 +105,11 @@ BOOL preventLoading;
                 self.failureCallback(error);
             }
         } else {
-            NSString *successPrefix = [NSString stringWithFormat:LINKEDIN_CODE_URL_PREFIX, self.application.redirectURL];
-            NSString *successSuffix = [NSString stringWithFormat:LINKEDIN_CODE_URL_SUFFIX, self.application.state];
-
+            NSString *receivedState = [self extractGetParameter:@"state" fromURLString: url];
             //assert that the state is as we expected it to be
-            if ([url hasSuffix:successSuffix]) {
+            if ([self.application.state isEqualToString:receivedState]) {
                 //extract the code from the url
-                NSString *authorizationCode = [url substringWithRange:NSMakeRange([successPrefix length], [url length] - [successPrefix length] - [successSuffix length])];
+                NSString *authorizationCode = [self extractGetParameter:@"code" fromURLString: url];
                 self.successCallback(authorizationCode);
             } else {
                 NSError *error = [[NSError alloc] initWithDomain:kLinkedInErrorDomain code:2 userInfo:[[NSMutableDictionary alloc] init]];
@@ -123,13 +117,24 @@ BOOL preventLoading;
             }
         }
     }
-	
-    return preventLoading;
+    return !handlingRedirectURL;
+}
+
+- (NSString *)extractGetParameter: (NSString *) parameterName fromURLString:(NSString *)urlString {
+    NSMutableDictionary *mdQueryStrings = [[NSMutableDictionary alloc] init];
+    urlString = [[urlString componentsSeparatedByString:@"?"] objectAtIndex:1];
+    for (NSString *qs in [urlString componentsSeparatedByString:@"&"]) {
+        [mdQueryStrings setValue:[[[[qs componentsSeparatedByString:@"="] objectAtIndex:1]
+                stringByReplacingOccurrencesOfString:@"+" withString:@" "]
+                stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
+                          forKey:[[qs componentsSeparatedByString:@"="] objectAtIndex:0]];
+    }
+    return [mdQueryStrings objectForKey:parameterName];
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
-	if (! preventLoading)
-		self.failureCallback(error);
+    if (!handlingRedirectURL)
+        self.failureCallback(error);
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
