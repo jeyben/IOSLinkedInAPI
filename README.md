@@ -35,6 +35,7 @@ LIALinkedInHttpClient *client = [LIALinkedInHttpClient clientForApplication:appl
 * redirectURL: has to be a http or https url (required by LinkedIn), but other than that, the endpoint doesn't have to respond anything. The library only uses the endpoint to know when to intercept calls in the UIWebView.
 * clientId: The id which is provided by LinkedIn upon registering an application.
 * clientSecret: The secret which is provided by LinkedIn upon registering an application.
+* state: the state used to prevent Cross Site Request Forgery. Should be something that is hard to guess.
 * grantedAccess: An array telling which access the application would like to be granted by the enduser. See full list here: http://developer.linkedin.com/documents/authentication
 
 Afterwards the client can be used to retrieve an accesstoken and access the data using the LinkedIn API:
