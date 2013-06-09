@@ -46,6 +46,8 @@ static NSString *const LINKEDIN_CODE_URL_PREFIX = @"%@?code=";
 //todo: handle no network
 @implementation LIALinkedInAuthorizationViewController
 
+BOOL preventLoading;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
@@ -94,7 +96,10 @@ static NSString *const LINKEDIN_CODE_URL_PREFIX = @"%@?code=";
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     NSString *url = [[request URL] absoluteString];
-    if ([url hasPrefix:self.application.redirectURL]) {
+	
+	preventLoading = [url hasPrefix:self.application.redirectURL];
+	
+    if (preventLoading) {
         if ([url rangeOfString:@"error"].location != NSNotFound) {
             BOOL accessDenied = [url rangeOfString:kLinkedInDeniedByUser].location != NSNotFound;
             if (accessDenied) {
@@ -117,13 +122,14 @@ static NSString *const LINKEDIN_CODE_URL_PREFIX = @"%@?code=";
                 self.failureCallback(error);
             }
         }
-        return NO;
     }
-    return YES;
+	
+    return preventLoading;
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
-    self.failureCallback(error);
+	if (! preventLoading)
+		self.failureCallback(error);
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
