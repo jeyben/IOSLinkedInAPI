@@ -26,12 +26,14 @@
 
 @interface LIALinkedInHttpClient ()
 @property(nonatomic, strong) LIALinkedInApplication *application;
+@property(nonatomic, strong) UIViewController *presentingViewController;
 @end
 
 @implementation LIALinkedInHttpClient
-+ (LIALinkedInHttpClient *)clientForApplication:(LIALinkedInApplication *)application {
++ (LIALinkedInHttpClient *)clientForApplication:(LIALinkedInApplication *)application presentingViewController:viewController {
     LIALinkedInHttpClient *client = [[self alloc] initWithBaseURL:[NSURL URLWithString:@"https://www.linkedin.com"]];
     client.application = application;
+    client.presentingViewController = viewController;
     return client;
 }
 
@@ -83,13 +85,13 @@
 }
 
 - (void)showAuthorizationView:(LIALinkedInAuthorizationViewController *)authorizationViewController {
-    UIViewController *rootViewController = [[UIApplication sharedApplication] keyWindow].rootViewController;
-    [rootViewController presentViewController:authorizationViewController animated:YES completion:nil];
+    if (self.presentingViewController == nil)
+        self.presentingViewController = [[UIApplication sharedApplication] keyWindow].rootViewController;
+    [self.presentingViewController presentViewController:authorizationViewController animated:YES completion:nil];
 }
 
 - (void)hideAuthenticateView {
-    UIViewController *rootViewController = [[UIApplication sharedApplication] keyWindow].rootViewController;
-    [rootViewController dismissViewControllerAnimated:YES completion:nil];
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 
