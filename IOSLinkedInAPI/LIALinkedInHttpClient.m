@@ -26,7 +26,7 @@
 
 @interface LIALinkedInHttpClient ()
 @property(nonatomic, strong) LIALinkedInApplication *application;
-@property(nonatomic, strong) UIViewController *presentingViewController;
+@property(nonatomic, weak) UIViewController *presentingViewController;
 @end
 
 @implementation LIALinkedInHttpClient
