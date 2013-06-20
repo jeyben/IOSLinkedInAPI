@@ -29,7 +29,7 @@
     NSString *clientSecret = LINKEDIN_CLIENT_SECRET; //the client secret you get from the registered LinkedIn application
     NSString *state = @"DCEEFWF45453sdffef424"; //A long unique string value of your choice that is hard to guess. Used to prevent CSRF
     LIALinkedInApplication *application = [LIALinkedInApplication applicationWithRedirectURL:@"http://www.ancientprogramming.com" clientId:clientId clientSecret:clientSecret state:state grantedAccess:grantedAccess];
-    self.client = [LIALinkedInHttpClient clientForApplication:application];
+    self.client = [LIALinkedInHttpClient clientForApplication:application presentingViewController:nil];
 
     UIButton *loginButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     loginButton.frame = CGRectMake(0, 0, 300, 44);
