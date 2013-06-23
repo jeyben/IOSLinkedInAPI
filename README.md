@@ -30,13 +30,14 @@ LIALinkedInApplication *application = [LIALinkedInApplication applicationWithRed
                                                                                 clientSecret:@"clientSecret"
                                                                                        state:@"DCEEFWF45453sdffef424"
                                                                                grantedAccess:@[@"r_fullprofile", @"r_network"]];
-LIALinkedInHttpClient *client = [LIALinkedInHttpClient clientForApplication:application];
+LIALinkedInHttpClient *client = [LIALinkedInHttpClient clientForApplication:application presentingViewController:nil];
 ```
 * redirectURL: has to be a http or https url (required by LinkedIn), but other than that, the endpoint doesn't have to respond anything. The library only uses the endpoint to know when to intercept calls in the UIWebView.
 * clientId: The id which is provided by LinkedIn upon registering an application.
 * clientSecret: The secret which is provided by LinkedIn upon registering an application.
 * state: the state used to prevent Cross Site Request Forgery. Should be something that is hard to guess.
 * grantedAccess: An array telling which access the application would like to be granted by the enduser. See full list here: http://developer.linkedin.com/documents/authentication
+* presentingViewController: The view controller that the UIWebView will be modally presented from.  Passing nil assumes the root view controller.
 
 Afterwards the client can be used to retrieve an accesstoken and access the data using the LinkedIn API:
 ``` objective-c
