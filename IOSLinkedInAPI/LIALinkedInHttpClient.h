@@ -26,6 +26,8 @@
 
 @interface LIALinkedInHttpClient : AFHTTPClient
 
++ (LIALinkedInHttpClient *)clientForApplication:(LIALinkedInApplication *)application;
+
 + (LIALinkedInHttpClient *)clientForApplication:(LIALinkedInApplication *)application presentingViewController:viewController;
 
 - (void)getAccessToken:(NSString *)authorizationCode success:(void (^)(NSDictionary *))success failure:(void (^)(NSError *))failure;

@@ -30,6 +30,11 @@
 @end
 
 @implementation LIALinkedInHttpClient
+
++ (LIALinkedInHttpClient *)clientForApplication:(LIALinkedInApplication *)application {
+    return [self clientForApplication:application presentingViewController:nil];
+}
+
 + (LIALinkedInHttpClient *)clientForApplication:(LIALinkedInApplication *)application presentingViewController:viewController {
     LIALinkedInHttpClient *client = [[self alloc] initWithBaseURL:[NSURL URLWithString:@"https://www.linkedin.com"]];
     client.application = application;

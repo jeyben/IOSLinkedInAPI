@@ -29,7 +29,7 @@
     NSString *clientSecret = LINKEDIN_CLIENT_SECRET; //the client secret you get from the registered LinkedIn application
     NSString *state = @"DCEEFWF45453sdffef424"; //A long unique string value of your choice that is hard to guess. Used to prevent CSRF
     LIALinkedInApplication *application = [LIALinkedInApplication applicationWithRedirectURL:@"http://www.ancientprogramming.com" clientId:clientId clientSecret:clientSecret state:state grantedAccess:grantedAccess];
-    self.client = [LIALinkedInHttpClient clientForApplication:application presentingViewController:nil];
+    self.client = [LIALinkedInHttpClient clientForApplication:application];
 
     UIButton *loginButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     loginButton.frame = CGRectMake(0, 0, 300, 44);
@@ -40,22 +40,22 @@
     [loginButton addTarget:self action:@selector(didPressLogin:) forControlEvents:UIControlEventTouchUpInside];
 }
 
-- (void) didPressLogin: (id) sender {
+- (void)didPressLogin:(id)sender {
     NSLog(@"did press login");
-    [self.client getAuthorizationCode:^(NSString * code) {
+    [self.client getAuthorizationCode:^(NSString *code) {
         [self.client getAccessToken:code success:^(NSDictionary *accessTokenData) {
             NSString *accessToken = [accessTokenData objectForKey:@"access_token"];
-            [self.client getPath:[NSString stringWithFormat:@"https://api.linkedin.com/v1/people/~?oauth2_access_token=%@&format=json", accessToken] parameters:nil success:^(AFHTTPRequestOperation * operation, NSDictionary *result) {
+            [self.client getPath:[NSString stringWithFormat:@"https://api.linkedin.com/v1/people/~?oauth2_access_token=%@&format=json", accessToken] parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *result) {
                 NSLog(@"current user %@", result);
-            } failure:^(AFHTTPRequestOperation * operation, NSError *error) {
+            }            failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                 NSLog(@"failed to fetch current user %@", error);
             }];
-        } failure:^(NSError *error) {
+        }                   failure:^(NSError *error) {
             NSLog(@"Quering accessToken failed %@", error);
         }];
-    } cancel:^{
+    }                          cancel:^{
         NSLog(@"Authorization was cancelled by user");
-    } failure:^(NSError *error) {
+    }                         failure:^(NSError *error) {
         NSLog(@"Authorization failed %@", error);
     }];
 
