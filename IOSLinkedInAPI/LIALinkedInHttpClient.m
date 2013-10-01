@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #import "LIALinkedInHttpClient.h"
-#import "AFJSONRequestOperation.h"
+#import <AFNetworking/AFURLResponseSerialization.h>
 #import "LIALinkedInAuthorizationViewController.h"
 #import "NSString+LIAEncode.h"
 
@@ -46,11 +46,7 @@
 - (id)initWithBaseURL:(NSURL *)url {
     self = [super initWithBaseURL:url];
     if (self) {
-        [self registerHTTPOperationClass:[AFJSONRequestOperation class]];
-        [self setDefaultHeader:@"Accept" value:@"application/json"];
-        [self setDefaultHeader:@"Content-Type" value:@"application/json"];
-        // This is to make AFNetworking format parameters against server as JSON
-        self.parameterEncoding = AFJSONParameterEncoding;
+        [self setResponseSerializer:[AFJSONResponseSerializer serializer]];
     }
     return self;
 }
@@ -58,34 +54,36 @@
 - (void)getAccessToken:(NSString *)authorizationCode success:(void (^)(NSDictionary *))success failure:(void (^)(NSError *))failure {
     NSString *accessTokenUrl = @"/uas/oauth2/accessToken?grant_type=authorization_code&code=%@&redirect_uri=%@&client_id=%@&client_secret=%@";
     NSString *url = [NSString stringWithFormat:accessTokenUrl, authorizationCode, [self.application.redirectURL LIAEncode], self.application.clientId, self.application.clientSecret];
-    [self postPath:url parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *accessToken) {
-        success(accessToken);
-    }     failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    
+    [self POST:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        success(responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         failure(error);
     }];
+    
 }
 
 - (void)getAuthorizationCode:(void (^)(NSString *))success cancel:(void (^)(void))cancel failure:(void (^)(NSError *))failure {
     LIALinkedInAuthorizationViewController *authorizationViewController = [[LIALinkedInAuthorizationViewController alloc]
-            initWithApplication:
-                    self.application
-                        success:^(NSString *code) {
-                            [self hideAuthenticateView];
-                            if (success) {
-                                success(code);
-                            }
-                        }
-            cancel:^{
-                [self hideAuthenticateView];
-                if (cancel) {
-                    cancel();
-                }
-            } failure:^(NSError *error) {
-                [self hideAuthenticateView];
-                if (failure) {
-                    failure(error);
-                }
-            }];
+                                                                           initWithApplication:
+                                                                           self.application
+                                                                           success:^(NSString *code) {
+                                                                               [self hideAuthenticateView];
+                                                                               if (success) {
+                                                                                   success(code);
+                                                                               }
+                                                                           }
+                                                                           cancel:^{
+                                                                               [self hideAuthenticateView];
+                                                                               if (cancel) {
+                                                                                   cancel();
+                                                                               }
+                                                                           } failure:^(NSError *error) {
+                                                                               [self hideAuthenticateView];
+                                                                               if (failure) {
+                                                                                   failure(error);
+                                                                               }
+                                                                           }];
     [self showAuthorizationView:authorizationViewController];
 }
 
