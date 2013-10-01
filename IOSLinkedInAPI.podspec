@@ -9,8 +9,8 @@ Pod::Spec.new do |s|
   s.source_files = 'IOSLinkedInAPI'
   s.requires_arc = true
 
-  s.platform     = :ios, '5.0'
+  s.platform     = :ios, '6.0'
 
-  s.dependency 'AFNetworking', '>= 1.2.1'
+  s.dependency 'AFNetworking', '>= 2.0.0'
 
 end
