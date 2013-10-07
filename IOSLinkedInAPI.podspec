@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name     = 'IOSLinkedInAPI'
-  s.version  = '1.0.1'
+  s.version  = '1.0.2'
   s.license  = 'MIT'
   s.summary  = 'IOS LinkedIn API capable of accessing LinkedIn using oauth2. Using a UIWebView to fetch the authorization code.'
   s.homepage = 'https://github.com/jeyben/IOSLinkedInAPI'
