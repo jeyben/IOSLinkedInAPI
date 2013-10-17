@@ -1,7 +1,7 @@
 IOSLinkedInAPI
 ==============
 A small non intrucive library that makes it easy to authenticate and authorize against LinkedIn using OAuth2.
-The API uses a UIWebView to authenticate against LinkedIn.
+The API uses a UIWebView to authenticate against LinkedIn. This fork supports AFNetworking 2.0.
 <p align="center" >
   <img src="https://raw.github.com/jeyben/IOSLinkedInAPI/master/gh-pages/authenticate-example.png" alt="Authentication" title="Authentication" height="372" width="198">
 </p>
