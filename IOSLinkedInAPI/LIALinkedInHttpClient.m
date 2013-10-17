@@ -72,8 +72,8 @@
     NSString *url = [NSString stringWithFormat:accessTokenUrl, authorizationCode, [self.application.redirectURL LIAEncode], self.application.clientId, self.application.clientSecret];
     
     [self POST:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSString *accessToken = [accessTokenData objectForKey:@"access_token"];
-        NSTimeInterval expiration = [[accessTokenData objectForKey:@"expires_in"] doubleValue];
+        NSString *accessToken = [responseObject objectForKey:@"access_token"];
+        NSTimeInterval expiration = [[responseObject objectForKey:@"expires_in"] doubleValue];
         
         // store credentials
         [userDefaults setObject:accessToken forKey:LINKEDIN_TOKEN_KEY];
