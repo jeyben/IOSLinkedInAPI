@@ -76,6 +76,8 @@
         NSTimeInterval expiration = [[responseObject objectForKey:@"expires_in"] doubleValue];
         
         // store credentials
+        NSUserDefaults  *userDefaults   = [NSUserDefaults standardUserDefaults];
+
         [userDefaults setObject:accessToken forKey:LINKEDIN_TOKEN_KEY];
         [userDefaults setDouble:expiration forKey:LINKEDIN_EXPIRATION_KEY];
         [userDefaults setDouble:[[NSDate date] timeIntervalSince1970] forKey:LINKEDIN_CREATION_KEY];
