@@ -20,9 +20,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #import "LIALinkedInHttpClient.h"
-#import "AFJSONRequestOperation.h"
+#import <AFNetworking/AFURLResponseSerialization.h>
 #import "LIALinkedInAuthorizationViewController.h"
 #import "NSString+LIAEncode.h"
+
+#define LINKEDIN_TOKEN_KEY          @"linkedin_token"
+#define LINKEDIN_EXPIRATION_KEY     @"linkedin_expiration"
+#define LINKEDIN_CREATION_KEY       @"linkedin_token_created_at"
 
 @interface LIALinkedInHttpClient ()
 @property(nonatomic, strong) LIALinkedInApplication *application;
@@ -46,46 +50,67 @@
 - (id)initWithBaseURL:(NSURL *)url {
     self = [super initWithBaseURL:url];
     if (self) {
-        [self registerHTTPOperationClass:[AFJSONRequestOperation class]];
-        [self setDefaultHeader:@"Accept" value:@"application/json"];
-        [self setDefaultHeader:@"Content-Type" value:@"application/json"];
-        // This is to make AFNetworking format parameters against server as JSON
-        self.parameterEncoding = AFJSONParameterEncoding;
+        [self setResponseSerializer:[AFJSONResponseSerializer serializer]];
     }
     return self;
+}
+
+- (BOOL)validToken
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    
+    if ([[NSDate date] timeIntervalSince1970] >= ([userDefaults doubleForKey:LINKEDIN_CREATION_KEY] + [userDefaults doubleForKey:LINKEDIN_EXPIRATION_KEY])) {
+        return NO;
+    }
+    else {
+        return YES;
+    }
 }
 
 - (void)getAccessToken:(NSString *)authorizationCode success:(void (^)(NSDictionary *))success failure:(void (^)(NSError *))failure {
     NSString *accessTokenUrl = @"/uas/oauth2/accessToken?grant_type=authorization_code&code=%@&redirect_uri=%@&client_id=%@&client_secret=%@";
     NSString *url = [NSString stringWithFormat:accessTokenUrl, authorizationCode, [self.application.redirectURL LIAEncode], self.application.clientId, self.application.clientSecret];
-    [self postPath:url parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *accessToken) {
-        success(accessToken);
-    }     failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    
+    [self POST:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSString *accessToken = [responseObject objectForKey:@"access_token"];
+        NSTimeInterval expiration = [[responseObject objectForKey:@"expires_in"] doubleValue];
+        
+        // store credentials
+        NSUserDefaults  *userDefaults   = [NSUserDefaults standardUserDefaults];
+
+        [userDefaults setObject:accessToken forKey:LINKEDIN_TOKEN_KEY];
+        [userDefaults setDouble:expiration forKey:LINKEDIN_EXPIRATION_KEY];
+        [userDefaults setDouble:[[NSDate date] timeIntervalSince1970] forKey:LINKEDIN_CREATION_KEY];
+        [userDefaults synchronize];
+        
+        success(responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         failure(error);
     }];
+    
 }
 
 - (void)getAuthorizationCode:(void (^)(NSString *))success cancel:(void (^)(void))cancel failure:(void (^)(NSError *))failure {
     LIALinkedInAuthorizationViewController *authorizationViewController = [[LIALinkedInAuthorizationViewController alloc]
-            initWithApplication:
-                    self.application
-                        success:^(NSString *code) {
-                            [self hideAuthenticateView];
-                            if (success) {
-                                success(code);
-                            }
-                        }
-            cancel:^{
-                [self hideAuthenticateView];
-                if (cancel) {
-                    cancel();
-                }
-            } failure:^(NSError *error) {
-                [self hideAuthenticateView];
-                if (failure) {
-                    failure(error);
-                }
-            }];
+                                                                           initWithApplication:
+                                                                           self.application
+                                                                           success:^(NSString *code) {
+                                                                               [self hideAuthenticateView];
+                                                                               if (success) {
+                                                                                   success(code);
+                                                                               }
+                                                                           }
+                                                                           cancel:^{
+                                                                               [self hideAuthenticateView];
+                                                                               if (cancel) {
+                                                                                   cancel();
+                                                                               }
+                                                                           } failure:^(NSError *error) {
+                                                                               [self hideAuthenticateView];
+                                                                               if (failure) {
+                                                                                   failure(error);
+                                                                               }
+                                                                           }];
     [self showAuthorizationView:authorizationViewController];
 }
 
