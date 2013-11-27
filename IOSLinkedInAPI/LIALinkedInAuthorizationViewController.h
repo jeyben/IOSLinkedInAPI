@@ -29,4 +29,7 @@ typedef void(^LIAAuthorizationCodeFailureCallback)(NSError *errorReason);
 @interface LIALinkedInAuthorizationViewController : UIViewController
 
 - (id)initWithApplication:(LIALinkedInApplication *)application success:(LIAAuthorizationCodeSuccessCallback)success cancel:(LIAAuthorizationCodeCancelCallback)cancel failure:(LIAAuthorizationCodeFailureCallback)failure;
+
+- (IBAction)tappedRefreshButton:(id)sender;
+
 @end

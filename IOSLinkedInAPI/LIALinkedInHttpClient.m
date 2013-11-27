@@ -117,7 +117,14 @@
 - (void)showAuthorizationView:(LIALinkedInAuthorizationViewController *)authorizationViewController {
     if (self.presentingViewController == nil)
         self.presentingViewController = [[UIApplication sharedApplication] keyWindow].rootViewController;
-    [self.presentingViewController presentViewController:authorizationViewController animated:YES completion:nil];
+    
+	UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:authorizationViewController];
+	
+	if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+		nc.modalPresentationStyle = UIModalPresentationFormSheet;
+	}
+	
+	[self.presentingViewController presentViewController:nc animated:YES completion:nil];
 }
 
 - (void)hideAuthenticateView {
