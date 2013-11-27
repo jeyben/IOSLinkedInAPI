@@ -22,16 +22,18 @@
 #import "LIALinkedInAuthorizationViewController.h"
 #import "NSString+LIAEncode.h"
 
+#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
+
 NSString *kLinkedInErrorDomain = @"LIALinkedInERROR";
 NSString *kLinkedInDeniedByUser = @"the+user+denied+your+request";
 
 @interface LIALinkedInAuthorizationViewController ()
-@property(nonatomic, strong) UIWebView *authenticationWebView;
+@property(nonatomic, weak) IBOutlet UIWebView *authenticationWebView;
+@property(nonatomic, weak) IBOutlet UILabel *loadingLabel;
 @property(nonatomic, copy) LIAAuthorizationCodeFailureCallback failureCallback;
 @property(nonatomic, copy) LIAAuthorizationCodeSuccessCallback successCallback;
 @property(nonatomic, copy) LIAAuthorizationCodeCancelCallback cancelCallback;
 @property(nonatomic, strong) LIALinkedInApplication *application;
-@property(nonatomic, strong) UIActivityIndicatorView *activityIndicatorView;
 @end
 
 @interface LIALinkedInAuthorizationViewController (UIWebViewDelegate) <UIWebViewDelegate>
@@ -64,25 +66,37 @@ BOOL handlingRedirectURL;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
-
-    self.activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    self.activityIndicatorView.center = self.view.center;
-    self.activityIndicatorView.hidesWhenStopped = YES;
-    [self.activityIndicatorView startAnimating];
-    [self.view addSubview:self.activityIndicatorView];
-
-    self.authenticationWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-    self.authenticationWebView.delegate = self;
-    self.authenticationWebView.hidden = YES;
-    [self.view addSubview:self.authenticationWebView];
-
-    self.navigationController.navigationBarHidden = YES;
+    
+	if(SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7")) {
+		
+		self.edgesForExtendedLayout = UIRectEdgeNone;
+	}
+	
+	self.view = [[[NSBundle mainBundle] loadNibNamed:@"LIALinkedInAuthorization" owner:self options:nil] objectAtIndex:0];
+	
+	UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(tappedCancelButton:)];
+	self.navigationItem.leftBarButtonItem = cancelButton;
+	
+	self.authenticationWebView.scalesPageToFit = YES;
+	
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     NSString *linkedIn = [NSString stringWithFormat:@"https://www.linkedin.com/uas/oauth2/authorization?response_type=code&client_id=%@&scope=%@&state=%@&redirect_uri=%@", self.application.clientId, self.application.grantedAccessString, self.application.state, [self.application.redirectURL LIAEncode]];
     [self.authenticationWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:linkedIn]]];
+}
+
+#pragma mark UI Action Methods
+
+- (void)tappedCancelButton:(id)sender {
+	
+	[self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (IBAction)tappedRefreshButton:(id)sender {
+	
+	[self.loadingLabel setAlpha:1.0];
+	[self.authenticationWebView reload];
 }
 
 @end
@@ -138,8 +152,27 @@ BOOL handlingRedirectURL;
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
-    [self.activityIndicatorView stopAnimating];
-    self.authenticationWebView.hidden = NO;
+	
+	
+	/*fix for the LinkedIn Auth window - it doesn't scale right when placed into
+	 a webview inside of a form sheet modal. If we transform the HTML of the page
+	 a bit, and fix the viewport to 540px (the width of the form sheet), the problem
+	 is solved.
+	*/
+	if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+		NSString* js =
+		@"var meta = document.createElement('meta'); "
+		@"meta.setAttribute( 'name', 'viewport' ); "
+		@"meta.setAttribute( 'content', 'width = 540px, initial-scale = 1.0, user-scalable = yes' ); "
+		@"document.getElementsByTagName('head')[0].appendChild(meta)";
+		
+		[webView stringByEvaluatingJavaScriptFromString: js];
+	}
+	
+	[UIView beginAnimations:nil context:NULL];
+	[UIView setAnimationDuration:1.0];
+	[self.loadingLabel setAlpha:0];
+	[UIView commitAnimations];
 }
 
 @end
