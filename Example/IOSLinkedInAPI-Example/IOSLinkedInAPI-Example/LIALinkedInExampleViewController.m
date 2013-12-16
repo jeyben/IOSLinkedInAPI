@@ -51,9 +51,9 @@
 
 - (void)didRequestAuthToken {
 
-//  if ([_client validToken]) {
-//    [self requestMeWithToken:[_client accessToken]];
-//  } else {
+  if ([_client validToken]) {
+    [self requestMeWithToken:[_client accessToken]];
+  } else {
     [_client getAuthorizationCode:^(NSString *code) {
       [self.client getAccessToken:code success:^(NSDictionary *accessTokenData) {
         NSString *accessToken = [accessTokenData objectForKey:@"access_token"];
@@ -66,7 +66,7 @@
     }                     failure:^(NSError *error) {
       NSLog(@"Authorization failed %@", error);
     }];
-//  }
+  }
 }
 
 - (void)requestMeWithToken:(NSString *)accessToken {
