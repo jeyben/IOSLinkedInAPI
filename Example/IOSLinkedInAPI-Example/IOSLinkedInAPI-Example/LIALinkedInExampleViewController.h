@@ -1,4 +1,4 @@
-// LIALinkedInHttpClient.h
+// LIALinkedInApplication.h
 //
 // Copyright (c) 2013 Ancientprogramming
 //
@@ -19,22 +19,8 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+#import <Foundation/Foundation.h>
 
-#import <AFNetworking/AFHTTPRequestOperationManager.h>
 
-@class LIALinkedInApplication;
-
-@interface LIALinkedInHttpClient : AFHTTPRequestOperationManager
-
-+ (LIALinkedInHttpClient *)clientForApplication:(LIALinkedInApplication *)application;
-
-+ (LIALinkedInHttpClient *)clientForApplication:(LIALinkedInApplication *)application presentingViewController:viewController;
-
-- (BOOL)validToken;
-
-- (NSString *)accessToken;
-
-- (void)getAccessToken:(NSString *)authorizationCode success:(void (^)(NSDictionary *))success failure:(void (^)(NSError *))failure;
-
-- (void)getAuthorizationCode:(void (^)(NSString *))success cancel:(void (^)(void))cancel failure:(void (^)(NSError *))failure;
+@interface LIALinkedInExampleViewController : UIViewController
 @end

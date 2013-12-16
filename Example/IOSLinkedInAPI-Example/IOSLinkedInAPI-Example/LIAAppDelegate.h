@@ -7,13 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LIALinkedInExampleViewController.h"
 
-@class LIAViewController;
+
 
 @interface LIAAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
-@property (strong, nonatomic) LIAViewController *viewController;
+@property (strong, nonatomic) LIALinkedInExampleViewController *viewController;
 
 @end
