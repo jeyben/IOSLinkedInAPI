@@ -83,6 +83,7 @@ BOOL handlingRedirectURL;
 - (void)tappedCancelButton:(id)sender {
 	
 	[self dismissViewControllerAnimated:YES completion:nil];
+  self.cancelCallback();
 }
 
 - (IBAction)tappedRefreshButton:(id)sender {
