@@ -85,8 +85,6 @@ BOOL handlingRedirectURL;
 #pragma mark UI Action Methods
 
 - (void)tappedCancelButton:(id)sender {
-	
-	[self dismissViewControllerAnimated:YES completion:nil];
   self.cancelCallback();
 }
 
