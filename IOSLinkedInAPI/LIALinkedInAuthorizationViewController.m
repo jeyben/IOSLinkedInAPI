@@ -68,6 +68,7 @@ BOOL handlingRedirectURL;
   self.authenticationWebView = [[UIWebView alloc] init];
   self.authenticationWebView.delegate = self;
   self.authenticationWebView.scalesPageToFit = YES;
+  [self.view addSubview:self.authenticationWebView];
 }
 
 - (void)viewDidAppear:(BOOL)animated {

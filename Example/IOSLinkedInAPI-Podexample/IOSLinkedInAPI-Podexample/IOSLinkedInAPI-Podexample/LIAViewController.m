@@ -27,22 +27,18 @@
 
 
 - (IBAction)didTapConnectWithLinkedIn:(id)sender {
-  if ([_client validToken]) {
-    [self requestMeWithToken:[_client accessToken]];
-  } else {
-    [_client getAuthorizationCode:^(NSString *code) {
-      [self.client getAccessToken:code success:^(NSDictionary *accessTokenData) {
-        NSString *accessToken = [accessTokenData objectForKey:@"access_token"];
-        [self requestMeWithToken:accessToken];
-      }                   failure:^(NSError *error) {
-        NSLog(@"Quering accessToken failed %@", error);
-      }];
-    }                      cancel:^{
-      NSLog(@"Authorization was cancelled by user");
-    }                     failure:^(NSError *error) {
-      NSLog(@"Authorization failed %@", error);
+  [_client getAuthorizationCode:^(NSString *code) {
+    [self.client getAccessToken:code success:^(NSDictionary *accessTokenData) {
+      NSString *accessToken = [accessTokenData objectForKey:@"access_token"];
+      [self requestMeWithToken:accessToken];
+    }                   failure:^(NSError *error) {
+      NSLog(@"Quering accessToken failed %@", error);
     }];
-  }
+  }                      cancel:^{
+    NSLog(@"Authorization was cancelled by user");
+  }                     failure:^(NSError *error) {
+    NSLog(@"Authorization failed %@", error);
+  }];
 }
 
 
