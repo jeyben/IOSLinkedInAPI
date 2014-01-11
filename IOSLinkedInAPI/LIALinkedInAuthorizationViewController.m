@@ -78,7 +78,7 @@ BOOL handlingRedirectURL;
 
 - (void)viewWillLayoutSubviews {
   [super viewWillLayoutSubviews];
-  self.authenticationWebView.frame = self.view.frame;
+  self.authenticationWebView.frame = self.view.bounds;
 }
 
 
