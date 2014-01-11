@@ -28,8 +28,7 @@ NSString *kLinkedInErrorDomain = @"LIALinkedInERROR";
 NSString *kLinkedInDeniedByUser = @"the+user+denied+your+request";
 
 @interface LIALinkedInAuthorizationViewController ()
-@property(nonatomic, weak) IBOutlet UIWebView *authenticationWebView;
-@property(nonatomic, weak) IBOutlet UILabel *loadingLabel;
+@property(nonatomic, strong) UIWebView *authenticationWebView;
 @property(nonatomic, copy) LIAAuthorizationCodeFailureCallback failureCallback;
 @property(nonatomic, copy) LIAAuthorizationCodeSuccessCallback successCallback;
 @property(nonatomic, copy) LIAAuthorizationCodeCancelCallback cancelCallback;
@@ -40,7 +39,6 @@ NSString *kLinkedInDeniedByUser = @"the+user+denied+your+request";
 
 @end
 
-//todo: handle no network
 @implementation LIALinkedInAuthorizationViewController
 
 BOOL handlingRedirectURL;
@@ -63,14 +61,13 @@ BOOL handlingRedirectURL;
 		
 		self.edgesForExtendedLayout = UIRectEdgeNone;
 	}
-	
-	self.view = [[[NSBundle mainBundle] loadNibNamed:@"LIALinkedInAuthorization" owner:self options:nil] objectAtIndex:0];
-	
+
 	UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(tappedCancelButton:)];
 	self.navigationItem.leftBarButtonItem = cancelButton;
-	
-	self.authenticationWebView.scalesPageToFit = YES;
-	
+
+  self.authenticationWebView = [[UIWebView alloc] init];
+  self.authenticationWebView.delegate = self;
+  self.authenticationWebView.scalesPageToFit = YES;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -78,18 +75,18 @@ BOOL handlingRedirectURL;
     [self.authenticationWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:linkedIn]]];
 }
 
+- (void)viewWillLayoutSubviews {
+  [super viewWillLayoutSubviews];
+  self.authenticationWebView.frame = self.view.frame;
+}
+
+
 #pragma mark UI Action Methods
 
 - (void)tappedCancelButton:(id)sender {
 	
 	[self dismissViewControllerAnimated:YES completion:nil];
   self.cancelCallback();
-}
-
-- (IBAction)tappedRefreshButton:(id)sender {
-	
-	[self.loadingLabel setAlpha:1.0];
-	[self.authenticationWebView reload];
 }
 
 @end
@@ -161,11 +158,6 @@ BOOL handlingRedirectURL;
 		
 		[webView stringByEvaluatingJavaScriptFromString: js];
 	}
-	
-	[UIView beginAnimations:nil context:NULL];
-	[UIView setAnimationDuration:1.0];
-	[self.loadingLabel setAlpha:0];
-	[UIView commitAnimations];
 }
 
 @end
