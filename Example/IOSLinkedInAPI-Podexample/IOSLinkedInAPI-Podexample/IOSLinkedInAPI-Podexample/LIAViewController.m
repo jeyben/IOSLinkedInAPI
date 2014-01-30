@@ -27,7 +27,7 @@
 
 
 - (IBAction)didTapConnectWithLinkedIn:(id)sender {
-  [_client getAuthorizationCode:^(NSString *code) {
+  [self.client getAuthorizationCode:^(NSString *code) {
     [self.client getAccessToken:code success:^(NSDictionary *accessTokenData) {
       NSString *accessToken = [accessTokenData objectForKey:@"access_token"];
       [self requestMeWithToken:accessToken];
