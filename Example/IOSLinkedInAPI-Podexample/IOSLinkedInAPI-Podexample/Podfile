@@ -1,0 +1,6 @@
+platform :ios, "6.1"
+
+pod 'IOSLinkedInAPI', :git => 'https://github.com/jeyben/IOSLinkedInAPI', :commit => '141550bac0aeb121fdcc762083759100800ea632'
+pod 'AFNetworking', "2.0.3"
+
+
