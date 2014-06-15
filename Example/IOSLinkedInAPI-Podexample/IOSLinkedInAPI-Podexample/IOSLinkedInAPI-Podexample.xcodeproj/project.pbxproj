@@ -23,6 +23,10 @@
 		33AE65A0185FA2E500981915 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33AE657F185FA2E400981915 /* UIKit.framework */; };
 		33AE65A8185FA2E500981915 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 33AE65A6185FA2E500981915 /* InfoPlist.strings */; };
 		33AE65AA185FA2E500981915 /* IOSLinkedInAPI_PodexampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 33AE65A9185FA2E500981915 /* IOSLinkedInAPI_PodexampleTests.m */; };
+		3FB2D6D6194D2AF600F258FD /* LIALinkedInApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FB2D6CF194D2AF600F258FD /* LIALinkedInApplication.m */; };
+		3FB2D6D7194D2AF600F258FD /* LIALinkedInAuthorizationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FB2D6D1194D2AF600F258FD /* LIALinkedInAuthorizationViewController.m */; };
+		3FB2D6D8194D2AF600F258FD /* LIALinkedInHttpClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FB2D6D3194D2AF600F258FD /* LIALinkedInHttpClient.m */; };
+		3FB2D6D9194D2AF600F258FD /* NSString+LIAEncode.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FB2D6D5194D2AF600F258FD /* NSString+LIAEncode.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +61,14 @@
 		33AE65A7185FA2E500981915 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		33AE65A9185FA2E500981915 /* IOSLinkedInAPI_PodexampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IOSLinkedInAPI_PodexampleTests.m; sourceTree = "<group>"; };
 		35282DA869D54E88A071E44A /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		3FB2D6CE194D2AF600F258FD /* LIALinkedInApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LIALinkedInApplication.h; sourceTree = "<group>"; };
+		3FB2D6CF194D2AF600F258FD /* LIALinkedInApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LIALinkedInApplication.m; sourceTree = "<group>"; };
+		3FB2D6D0194D2AF600F258FD /* LIALinkedInAuthorizationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LIALinkedInAuthorizationViewController.h; sourceTree = "<group>"; };
+		3FB2D6D1194D2AF600F258FD /* LIALinkedInAuthorizationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LIALinkedInAuthorizationViewController.m; sourceTree = "<group>"; };
+		3FB2D6D2194D2AF600F258FD /* LIALinkedInHttpClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LIALinkedInHttpClient.h; sourceTree = "<group>"; };
+		3FB2D6D3194D2AF600F258FD /* LIALinkedInHttpClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LIALinkedInHttpClient.m; sourceTree = "<group>"; };
+		3FB2D6D4194D2AF600F258FD /* NSString+LIAEncode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+LIAEncode.h"; sourceTree = "<group>"; };
+		3FB2D6D5194D2AF600F258FD /* NSString+LIAEncode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+LIAEncode.m"; sourceTree = "<group>"; };
 		8B150E210F374D749A42FD73 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		E0CD15D06FF04FF5977479E5 /* Pods-IOSLinkedInAPI-Podexample.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IOSLinkedInAPI-Podexample.xcconfig"; path = "Pods/Pods-IOSLinkedInAPI-Podexample.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -128,6 +140,7 @@
 				33AE6590185FA2E400981915 /* Main_iPad.storyboard */,
 				33AE6593185FA2E400981915 /* LIAViewController.h */,
 				33AE6594185FA2E400981915 /* LIAViewController.m */,
+				3FB2D6CD194D2A6B00F258FD /* IOSLinkedInAPI */,
 				33AE6596185FA2E400981915 /* Images.xcassets */,
 				33AE6582185FA2E400981915 /* Supporting Files */,
 			);
@@ -161,6 +174,21 @@
 				33AE65A6185FA2E500981915 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		3FB2D6CD194D2A6B00F258FD /* IOSLinkedInAPI */ = {
+			isa = PBXGroup;
+			children = (
+				3FB2D6CE194D2AF600F258FD /* LIALinkedInApplication.h */,
+				3FB2D6CF194D2AF600F258FD /* LIALinkedInApplication.m */,
+				3FB2D6D0194D2AF600F258FD /* LIALinkedInAuthorizationViewController.h */,
+				3FB2D6D1194D2AF600F258FD /* LIALinkedInAuthorizationViewController.m */,
+				3FB2D6D2194D2AF600F258FD /* LIALinkedInHttpClient.h */,
+				3FB2D6D3194D2AF600F258FD /* LIALinkedInHttpClient.m */,
+				3FB2D6D4194D2AF600F258FD /* NSString+LIAEncode.h */,
+				3FB2D6D5194D2AF600F258FD /* NSString+LIAEncode.m */,
+			);
+			name = IOSLinkedInAPI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -210,11 +238,11 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = LIA;
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Eyben Consult ApS";
 				TargetAttributes = {
 					33AE659B185FA2E400981915 = {
-						TestTargetID = 33AE6577185FA2E400981915 /* IOSLinkedInAPI-Podexample */;
+						TestTargetID = 33AE6577185FA2E400981915;
 					};
 				};
 			};
@@ -229,8 +257,6 @@
 			mainGroup = 33AE656F185FA2E400981915;
 			productRefGroup = 33AE6579185FA2E400981915 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-			);
 			projectRoot = "";
 			targets = (
 				33AE6577185FA2E400981915 /* IOSLinkedInAPI-Podexample */,
@@ -301,7 +327,11 @@
 			files = (
 				33AE6588185FA2E400981915 /* main.m in Sources */,
 				33AE658C185FA2E400981915 /* LIAAppDelegate.m in Sources */,
+				3FB2D6D9194D2AF600F258FD /* NSString+LIAEncode.m in Sources */,
 				33AE6595185FA2E400981915 /* LIAViewController.m in Sources */,
+				3FB2D6D6194D2AF600F258FD /* LIALinkedInApplication.m in Sources */,
+				3FB2D6D7194D2AF600F258FD /* LIALinkedInAuthorizationViewController.m in Sources */,
+				3FB2D6D8194D2AF600F258FD /* LIALinkedInHttpClient.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -363,7 +393,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -403,7 +432,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -464,7 +492,6 @@
 		33AE65B1185FA2E500981915 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/IOSLinkedInAPI-Podexample.app/IOSLinkedInAPI-Podexample";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -487,7 +514,6 @@
 		33AE65B2185FA2E500981915 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/IOSLinkedInAPI-Podexample.app/IOSLinkedInAPI-Podexample";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -522,6 +548,7 @@
 				33AE65AF185FA2E500981915 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		33AE65B0185FA2E500981915 /* Build configuration list for PBXNativeTarget "IOSLinkedInAPI-PodexampleTests" */ = {
 			isa = XCConfigurationList;
@@ -530,6 +557,7 @@
 				33AE65B2185FA2E500981915 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
