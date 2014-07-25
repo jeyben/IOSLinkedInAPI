@@ -127,14 +127,13 @@ BOOL handlingRedirectURL;
     NSMutableDictionary *mdQueryStrings = [[NSMutableDictionary alloc] init];
     urlString = [[urlString componentsSeparatedByString:@"?"] objectAtIndex:1];
     for (NSString *qs in [urlString componentsSeparatedByString:@"&"]) {
-        [mdQueryStrings setValue:[[[[qs componentsSeparatedByString:@"="] objectAtIndex:1]
-                stringByReplacingOccurrencesOfString:@"+" withString:@" "]
-                stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
-                          forKey:[[qs componentsSeparatedByString:@"="] objectAtIndex:0]];
+        NSArray * keyValue = [qs componentsSeparatedByString:@"="];
+        if (keyValue.count < 2) break;
+        NSString * value = [[[keyValue objectAtIndex:1] stringByReplacingOccurrencesOfString:@"+" withString:@" "] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        [mdQueryStrings setValue:value forKey:[keyValue objectAtIndex:0]];
     }
     return [mdQueryStrings objectForKey:parameterName];
 }
-
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     if (!handlingRedirectURL)
         self.failureCallback(error);
