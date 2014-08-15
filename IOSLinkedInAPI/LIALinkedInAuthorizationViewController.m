@@ -74,6 +74,7 @@ BOOL handlingRedirectURL;
 - (void)viewDidAppear:(BOOL)animated {
     NSString *linkedIn = [NSString stringWithFormat:@"https://www.linkedin.com/uas/oauth2/authorization?response_type=code&client_id=%@&scope=%@&state=%@&redirect_uri=%@", self.application.clientId, self.application.grantedAccessString, self.application.state, [self.application.redirectURL LIAEncode]];
     [self.authenticationWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:linkedIn]]];
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 }
 
 - (void)viewWillLayoutSubviews {
@@ -136,13 +137,19 @@ BOOL handlingRedirectURL;
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
+
+    // Turn off network activity indicator upon failure to load web view
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+
     if (!handlingRedirectURL)
         self.failureCallback(error);
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
-	
-	
+
+    // Turn off network activity indicator upon finishing web view load
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+
 	/*fix for the LinkedIn Auth window - it doesn't scale right when placed into
 	 a webview inside of a form sheet modal. If we transform the HTML of the page
 	 a bit, and fix the viewport to 540px (the width of the form sheet), the problem
