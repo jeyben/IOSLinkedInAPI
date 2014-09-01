@@ -1,6 +1,6 @@
 IOSLinkedInAPI
 ==============
-A small non intrucive library that makes it easy to authenticate and authorize against LinkedIn using OAuth2.
+A small non intrusive library that makes it easy to authenticate and authorize against LinkedIn using OAuth2.
 The API uses a UIWebView to authenticate against LinkedIn.
  
 <p align="center" >
