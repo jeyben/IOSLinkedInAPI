@@ -26,6 +26,10 @@
 
 @interface LIALinkedInHttpClient : AFHTTPRequestOperationManager
 
+// Authorization view controller class. Must be subclass of LIALinkedInAuthorizationViewController.
+// Default: LIALinkedInAuthorizationViewController
+@property (nonatomic) Class authorizationViewControllerClass;
+
 + (LIALinkedInHttpClient *)clientForApplication:(LIALinkedInApplication *)application;
 
 + (LIALinkedInHttpClient *)clientForApplication:(LIALinkedInApplication *)application presentingViewController:viewController;

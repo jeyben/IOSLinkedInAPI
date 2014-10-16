@@ -50,6 +50,7 @@
   self = [super initWithBaseURL:url];
   if (self) {
     [self setResponseSerializer:[AFJSONResponseSerializer serializer]];
+	self.authorizationViewControllerClass = [LIALinkedInAuthorizationViewController class];
   }
   return self;
 }
@@ -93,7 +94,7 @@
 }
 
 - (void)getAuthorizationCode:(void (^)(NSString *))success cancel:(void (^)(void))cancel failure:(void (^)(NSError *))failure {
-  LIALinkedInAuthorizationViewController *authorizationViewController = [[LIALinkedInAuthorizationViewController alloc]
+  LIALinkedInAuthorizationViewController *authorizationViewController = [[self.authorizationViewControllerClass alloc]
       initWithApplication:
           self.application
                   success:^(NSString *code) {
