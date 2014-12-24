@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 #import "LIALinkedInAuthorizationViewController.h"
 #import "NSString+LIAEncode.h"
+#import "MBProgressHUD.h"
 
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 
@@ -72,6 +73,8 @@ BOOL handlingRedirectURL;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+
     NSString *linkedIn = [NSString stringWithFormat:@"https://www.linkedin.com/uas/oauth2/authorization?response_type=code&client_id=%@&scope=%@&state=%@&redirect_uri=%@", self.application.clientId, self.application.grantedAccessString, self.application.state, [self.application.redirectURL LIAEncode]];
     [self.authenticationWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:linkedIn]]];
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
@@ -146,7 +149,7 @@ BOOL handlingRedirectURL;
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
-
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
     // Turn off network activity indicator upon finishing web view load
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 
