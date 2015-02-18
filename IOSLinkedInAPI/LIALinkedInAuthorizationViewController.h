@@ -26,8 +26,26 @@ typedef void(^LIAAuthorizationCodeSuccessCallback)(NSString *code);
 typedef void(^LIAAuthorizationCodeCancelCallback)(void);
 typedef void(^LIAAuthorizationCodeFailureCallback)(NSError *errorReason);
 
+/**
+ * View Controller subclass containing a `UIWebView` which will be used to display the LinkedIN web UI to perform the login.
+ **/
 @interface LIALinkedInAuthorizationViewController : UIViewController
 
-- (id)initWithApplication:(LIALinkedInApplication *)application success:(LIAAuthorizationCodeSuccessCallback)success cancel:(LIAAuthorizationCodeCancelCallback)cancel failure:(LIAAuthorizationCodeFailureCallback)failure;
+/** ************************************************************************************************ **
+ * @name Initializers
+ ** ************************************************************************************************ **/
+
+/**
+ * Default initializer.
+ * @param application A `LIALinkedInApplication` configured instance.
+ * @param success A success block.
+ * @param cancel A cancel block.
+ * @param failure A failure block.
+ * @returns An initialized instance
+ **/
+- (id)initWithApplication:(LIALinkedInApplication *)application 
+	              success:(LIAAuthorizationCodeSuccessCallback)success 
+				   cancel:(LIAAuthorizationCodeCancelCallback)cancel 
+				  failure:(LIAAuthorizationCodeFailureCallback)failure;
 
 @end

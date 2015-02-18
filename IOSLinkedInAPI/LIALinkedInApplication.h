@@ -23,22 +23,74 @@
 
 #import <Foundation/Foundation.h>
 
-
+/**
+ * A LIALinkedInApplication defines the application which is granted access to the users linkedin data.
+ **/
 @interface LIALinkedInApplication : NSObject
 
-@property(nonatomic, copy) NSString *redirectURL;
-@property(nonatomic, copy) NSString *clientId;
-@property(nonatomic, copy) NSString *clientSecret;
-@property(nonatomic, copy) NSString *state;
+/** ************************************************************************************************ **
+ * @name Initializers
+ ** ************************************************************************************************ **/
 
-//the list of grantedAccess granted to the application when authorizing through LinkedIn
-@property(nonatomic, strong) NSArray *grantedAccess;
-
+/**
+ * The default initializer.
+ * @param redirectURL Has to be a http or https url (required by LinkedIn), but other than that, the endpoint doesn't have to respond anything. The library only uses the endpoint to know when to intercept calls in the UIWebView.
+ * @param clientId The id which is provided by LinkedIn upon registering an application.
+ * @param clientSecret The secret which is provided by LinkedIn upon registering an application.
+ * @param state The state used to prevent Cross Site Request Forgery. Should be something that is hard to guess.
+ * @param grantedAccess An array telling which access the application would like to be granted by the enduser. See full list here: http://developer.linkedin.com/documents/authentication.
+ * @return An initialized instance.
+ **/
 - (id)initWithRedirectURL:(NSString *)redirectURL clientId:(NSString *)clientId clientSecret:(NSString *)clientSecret state:(NSString *)state grantedAccess:(NSArray *)grantedAccess;
 
+/**
+ * The default static initializer.
+ * @param redirectURL Has to be a http or https url (required by LinkedIn), but other than that, the endpoint doesn't have to respond anything. The library only uses the endpoint to know when to intercept calls in the UIWebView.
+ * @param clientId The id which is provided by LinkedIn upon registering an application.
+ * @param clientSecret The secret which is provided by LinkedIn upon registering an application.
+ * @param state The state used to prevent Cross Site Request Forgery. Should be something that is hard to guess.
+ * @param grantedAccess An array telling which access the application would like to be granted by the enduser. See full list here: http://developer.linkedin.com/documents/authentication.
+ * @return An initialized instance.
+ **/
 + (id)applicationWithRedirectURL:(NSString *)redirectURL clientId:(NSString *)clientId clientSecret:(NSString *)clientSecret state:(NSString *)state grantedAccess:(NSArray *)grantedAccess;
 
-- (NSString *)grantedAccessString;
+/** ************************************************************************************************ **
+ * @name Attributes
+ ** ************************************************************************************************ **/
 
+/**
+ * Has to be a http or https url (required by LinkedIn), but other than that, the endpoint doesn't have to respond anything. The library only uses the endpoint to know when to intercept calls in the UIWebView.
+ **/
+@property(nonatomic, copy) NSString *redirectURL;
+
+/**
+ * The id which is provided by LinkedIn upon registering an application.
+ **/
+@property(nonatomic, copy) NSString *clientId;
+
+/**
+ * The secret which is provided by LinkedIn upon registering an application.
+ **/
+@property(nonatomic, copy) NSString *clientSecret;
+
+/**
+ * The state used to prevent Cross Site Request Forgery. Should be something that is hard to guess.
+ **/
+@property(nonatomic, copy) NSString *state;
+
+/**
+ * An array telling which access the application would like to be granted by the enduser. See full list here: http://developer.linkedin.com/documents/authentication.
+ **/
+@property(nonatomic, strong) NSArray *grantedAccess;
+
+/** ************************************************************************************************ **
+ * @name Methods
+ ** ************************************************************************************************ **/
+
+/**
+ * Returns a string composed of the `grantedAccess` parameters.
+ * @return All granted access parameters in a string.
+ **/
+- (NSString *)grantedAccessString;
 
 @end

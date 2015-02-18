@@ -24,8 +24,19 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ * NSString additions for the LIALinkedIn framework.
+ **/
 @interface NSString (LIAEncode)
 
--(NSString *) LIAEncode;
+/** ************************************************************************************************ **
+ * @name Encoding
+ ** ************************************************************************************************ **/
+
+/**
+ * String encoding.
+ * @return An encoded string.
+ **/
+- (NSString *)LIAEncode;
 
 @end
