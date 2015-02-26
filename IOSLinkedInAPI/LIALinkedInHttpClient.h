@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <AFNetworking/AFHTTPRequestOperationManager.h>
+#import "AFHTTPRequestOperationManager.h"
 
 @class LIALinkedInApplication;
 
