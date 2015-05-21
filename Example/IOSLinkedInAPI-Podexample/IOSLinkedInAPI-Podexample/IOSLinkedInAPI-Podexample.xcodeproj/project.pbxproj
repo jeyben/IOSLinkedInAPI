@@ -57,8 +57,9 @@
 		33AE65A7185FA2E500981915 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		33AE65A9185FA2E500981915 /* IOSLinkedInAPI_PodexampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IOSLinkedInAPI_PodexampleTests.m; sourceTree = "<group>"; };
 		35282DA869D54E88A071E44A /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		8B150E210F374D749A42FD73 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
-		E0CD15D06FF04FF5977479E5 /* Pods-IOSLinkedInAPI-Podexample.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IOSLinkedInAPI-Podexample.xcconfig"; path = "Pods/Pods-IOSLinkedInAPI-Podexample.xcconfig"; sourceTree = "<group>"; };
+		36C61A70062DCDB6C0D91608 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		68F80C48A6B8DD8FB6323B0D /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		AB9993AF1B0E95F60077D772 /* LIALinkedInClientExampleCredentials.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LIALinkedInClientExampleCredentials.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,8 +94,7 @@
 				33AE65A3185FA2E500981915 /* IOSLinkedInAPI-PodexampleTests */,
 				33AE657A185FA2E400981915 /* Frameworks */,
 				33AE6579185FA2E400981915 /* Products */,
-				E0CD15D06FF04FF5977479E5 /* Pods-IOSLinkedInAPI-Podexample.xcconfig */,
-				8B150E210F374D749A42FD73 /* Pods.xcconfig */,
+				9C76CC298EBBAE58FDE8ECCC /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -128,6 +128,7 @@
 				33AE6590185FA2E400981915 /* Main_iPad.storyboard */,
 				33AE6593185FA2E400981915 /* LIAViewController.h */,
 				33AE6594185FA2E400981915 /* LIAViewController.m */,
+				AB9993AF1B0E95F60077D772 /* LIALinkedInClientExampleCredentials.h */,
 				33AE6596185FA2E400981915 /* Images.xcassets */,
 				33AE6582185FA2E400981915 /* Supporting Files */,
 			);
@@ -161,6 +162,15 @@
 				33AE65A6185FA2E500981915 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		9C76CC298EBBAE58FDE8ECCC /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				36C61A70062DCDB6C0D91608 /* Pods.debug.xcconfig */,
+				68F80C48A6B8DD8FB6323B0D /* Pods.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -214,7 +224,7 @@
 				ORGANIZATIONNAME = "Eyben Consult ApS";
 				TargetAttributes = {
 					33AE659B185FA2E400981915 = {
-						TestTargetID = 33AE6577185FA2E400981915 /* IOSLinkedInAPI-Podexample */;
+						TestTargetID = 33AE6577185FA2E400981915;
 					};
 				};
 			};
@@ -229,8 +239,6 @@
 			mainGroup = 33AE656F185FA2E400981915;
 			productRefGroup = 33AE6579185FA2E400981915 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-			);
 			projectRoot = "";
 			targets = (
 				33AE6577185FA2E400981915 /* IOSLinkedInAPI-Podexample */,
@@ -289,7 +297,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -435,7 +443,7 @@
 		};
 		33AE65AE185FA2E500981915 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8B150E210F374D749A42FD73 /* Pods.xcconfig */;
+			baseConfigurationReference = 36C61A70062DCDB6C0D91608 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -449,7 +457,7 @@
 		};
 		33AE65AF185FA2E500981915 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8B150E210F374D749A42FD73 /* Pods.xcconfig */;
+			baseConfigurationReference = 68F80C48A6B8DD8FB6323B0D /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -522,6 +530,7 @@
 				33AE65AF185FA2E500981915 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		33AE65B0185FA2E500981915 /* Build configuration list for PBXNativeTarget "IOSLinkedInAPI-PodexampleTests" */ = {
 			isa = XCConfigurationList;
@@ -530,6 +539,7 @@
 				33AE65B2185FA2E500981915 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

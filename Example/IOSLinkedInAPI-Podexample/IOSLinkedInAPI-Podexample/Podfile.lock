@@ -1,35 +1,42 @@
 PODS:
-  - AFNetworking (2.1.0):
+  - AFNetworking (2.5.4):
+    - AFNetworking/NSURLConnection (= 2.5.4)
+    - AFNetworking/NSURLSession (= 2.5.4)
+    - AFNetworking/Reachability (= 2.5.4)
+    - AFNetworking/Security (= 2.5.4)
+    - AFNetworking/Serialization (= 2.5.4)
+    - AFNetworking/UIKit (= 2.5.4)
+  - AFNetworking/NSURLConnection (2.5.4):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/NSURLSession (2.5.4):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (2.5.4)
+  - AFNetworking/Security (2.5.4)
+  - AFNetworking/Serialization (2.5.4)
+  - AFNetworking/UIKit (2.5.4):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
-    - AFNetworking/Reachability
-    - AFNetworking/Security
-    - AFNetworking/Serialization
-    - AFNetworking/UIKit
-  - AFNetworking/NSURLConnection (2.1.0):
-    - AFNetworking/Reachability
-    - AFNetworking/Security
-    - AFNetworking/Serialization
-  - AFNetworking/NSURLSession (2.1.0):
-    - AFNetworking/NSURLConnection
-  - AFNetworking/Reachability (2.1.0)
-  - AFNetworking/Security (2.1.0)
-  - AFNetworking/Serialization (2.1.0)
-  - AFNetworking/UIKit (2.1.0):
-    - AFNetworking/NSURLConnection
   - IOSLinkedInAPI (2.0.0):
     - AFNetworking (>= 2.0.0)
 
 DEPENDENCIES:
-  - IOSLinkedInAPI (from `https://github.com/jeyben/IOSLinkedInAPI`, commit `7b777b16867c713ed660c1d3711f83b76388ea99`)
+  - IOSLinkedInAPI (from `https://github.com/chaseholland/IOSLinkedInAPI.git`)
 
 EXTERNAL SOURCES:
   IOSLinkedInAPI:
-    :commit: 7b777b16867c713ed660c1d3711f83b76388ea99
-    :git: https://github.com/jeyben/IOSLinkedInAPI
+    :git: https://github.com/chaseholland/IOSLinkedInAPI.git
+
+CHECKOUT OPTIONS:
+  IOSLinkedInAPI:
+    :commit: 6221cbed9949e090d64732350061c03a7a9c80e5
+    :git: https://github.com/chaseholland/IOSLinkedInAPI.git
 
 SPEC CHECKSUMS:
-  AFNetworking: c7d7901a83f631414c7eda1737261f696101a5cd
-  IOSLinkedInAPI: 1c1b1bc3fcf21607225d2b9cd704bffab0abfbe1
+  AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
+  IOSLinkedInAPI: d0adc664472d471b0df9b2aad92a2d82de926c40
 
-COCOAPODS: 0.27.1
+COCOAPODS: 0.37.1
