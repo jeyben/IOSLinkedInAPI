@@ -1,5 +1,5 @@
 platform :ios, "6.1"
 
-pod 'IOSLinkedInAPI', :git => 'https://github.com/chaseholland/IOSLinkedInAPI.git'
+pod 'IOSLinkedInAPI', :git => 'https://github.com/jeyben/IOSLinkedInAPI.git'
 
 
