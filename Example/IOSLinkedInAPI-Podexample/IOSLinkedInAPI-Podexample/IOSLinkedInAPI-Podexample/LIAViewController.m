@@ -55,7 +55,7 @@
                                                                                   clientId:LINKEDIN_CLIENT_ID
                                                                               clientSecret:LINKEDIN_CLIENT_SECRET
                                                                                      state:@"DCEEFWF45453sdffef424"
-                                                                             grantedAccess:@[@"r_fullprofile", @"r_network"]];
+                                                                             grantedAccess:@[]];
   return [LIALinkedInHttpClient clientForApplication:application presentingViewController:nil];
 }
 
