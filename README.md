@@ -1,8 +1,7 @@
 IOSLinkedInAPI
 ==============
-Note: Restricted API usage as long as you aren't a partner
-----------------------------------------------------------
-As of the 12´ May 2015 LinkedIn applied restrictions to API usage for all non partners:
+
+*Note:* As of the 12´ May 2015 LinkedIn applied restrictions to API usage for all non partners:
 See: https://developer.linkedin.com/blog/posts/2015/developer-program-changes
 
 ----------------------------------------------------------
