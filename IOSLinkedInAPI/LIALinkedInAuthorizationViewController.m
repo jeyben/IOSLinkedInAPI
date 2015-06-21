@@ -106,7 +106,11 @@ BOOL handlingRedirectURL;
             if (accessDenied) {
                 self.cancelCallback();
             } else {
-                NSError *error = [[NSError alloc] initWithDomain:kLinkedInErrorDomain code:1 userInfo:[[NSMutableDictionary alloc] init]];
+                NSString* errorDescription = [self extractGetParameter:@"error_description" fromURLString:url];
+                NSError *error = [[NSError alloc] initWithDomain:kLinkedInErrorDomain
+                                                            code:1
+                                                        userInfo:@{
+                                                                   NSLocalizedDescriptionKey: errorDescription}];
                 self.failureCallback(error);
             }
         } else {
