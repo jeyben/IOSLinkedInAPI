@@ -72,24 +72,24 @@
 - (void)getAccessToken:(NSString *)authorizationCode success:(void (^)(NSDictionary *))success failure:(void (^)(NSError *))failure {
   NSString *accessTokenUrl = @"/uas/oauth2/accessToken?grant_type=authorization_code&code=%@&redirect_uri=%@&client_id=%@&client_secret=%@";
   NSString *url = [NSString stringWithFormat:accessTokenUrl, authorizationCode, [self.application.redirectURL LIAEncode], self.application.clientId, self.application.clientSecret];
-
-  [self POST:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+  
+  //using AFNetworking 3
+  [self POST:url parameters:nil constructingBodyWithBlock:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
     NSString *accessToken = [responseObject objectForKey:@"access_token"];
     NSTimeInterval expiration = [[responseObject objectForKey:@"expires_in"] doubleValue];
-
     // store credentials
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-
+    
     [userDefaults setObject:accessToken forKey:LINKEDIN_TOKEN_KEY];
     [userDefaults setDouble:expiration forKey:LINKEDIN_EXPIRATION_KEY];
     [userDefaults setDouble:[[NSDate date] timeIntervalSince1970] forKey:LINKEDIN_CREATION_KEY];
     [userDefaults synchronize];
-
+    
     success(responseObject);
-  }  failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+  } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
     failure(error);
   }];
-
+  
 }
 
 - (void)getAuthorizationCode:(void (^)(NSString *))success cancel:(void (^)(void))cancel failure:(void (^)(NSError *))failure {
