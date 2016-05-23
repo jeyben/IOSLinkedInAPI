@@ -23,12 +23,12 @@
 /**
  *  Check if before AFNetworking 3.0
  */
-#if __has_include_next("AFHTTPRequestOperationManager.h")
+#if __has_include_next("AFNetworking/AFHTTPRequestOperationManager.h")
 
 #import <AFNetworking/AFHTTPRequestOperationManager.h>
 #define AFHTTPManager AFHTTPRequestOperationManager
 
-#elif __has_include_next("AFHTTPSessionManager.h")
+#elif __has_include_next("AFNetworking/AFHTTPSessionManager.h")
 
 #import <AFNetworking/AFHTTPSessionManager.h>
 #define AFHTTPManager AFHTTPSessionManager
