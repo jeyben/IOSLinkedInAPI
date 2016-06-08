@@ -51,11 +51,11 @@
 }
 
 - (LIALinkedInHttpClient *)client {
-  LIALinkedInApplication *application = [LIALinkedInApplication applicationWithRedirectURL:@"http://www.ancientprogramming.com/liaexample"
+  LIALinkedInApplication *application = [LIALinkedInApplication applicationWithRedirectURL:LINKEDIN_REDIRECT_URL
                                                                                   clientId:LINKEDIN_CLIENT_ID
                                                                               clientSecret:LINKEDIN_CLIENT_SECRET
                                                                                      state:@"DCEEFWF45453sdffef424"
-                                                                             grantedAccess:@[@"r_fullprofile", @"r_network"]];
+                                                                             grantedAccess:@[]];
   return [LIALinkedInHttpClient clientForApplication:application presentingViewController:nil];
 }
 
