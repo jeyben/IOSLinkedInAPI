@@ -133,16 +133,22 @@
 }
 
 - (void)showAuthorizationView:(LIALinkedInAuthorizationViewController *)authorizationViewController {
-  if (self.presentingViewController == nil)
-    self.presentingViewController = [[UIApplication sharedApplication] keyWindow].rootViewController;
-
-  UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:authorizationViewController];
-
-  if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-    nc.modalPresentationStyle = UIModalPresentationFormSheet;
-  }
-
-  [self.presentingViewController presentViewController:nc animated:YES completion:nil];
+    if (self.presentingViewController == nil) {
+        UIViewController *rootVC = [[UIApplication sharedApplication] keyWindow].rootViewController;
+        if (rootVC.presentedViewController == nil) {
+            self.presentingViewController = rootVC;
+        } else {
+            self.presentingViewController = rootVC.presentedViewController;
+        }
+    }
+    
+    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:authorizationViewController];
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        nc.modalPresentationStyle = UIModalPresentationFormSheet;
+    }
+    
+    [self.presentingViewController presentViewController:nc animated:YES completion:nil];
 }
 
 - (void)hideAuthenticateView {
