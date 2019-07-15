@@ -26,7 +26,7 @@ How To Get Started
 ------------------
 The library can be fetched as a Pod from [cocoapods](http://cocoapods.org/?q=ioslinkedinapi)
 
-If you aren't using CocoaPods you can always download the libary and import the files from the folder IOSLinkedInAPI into your existing project.
+If you aren't using CocoaPods you can always download the library and import the files from the folder IOSLinkedInAPI into your existing project.
 
 Example Code
 ------------
@@ -89,8 +89,8 @@ Just run 'pods install' in the directory after your clone and you should be able
 Next step
 --------------------
 The library is currently  handling the authentication and authorization.
-I would like to improve the libary to also make it easy to do the actually API calls.
-My current thought is to let the client remember the accessToken after it is retrieved and afterwards automatically append it to futher calls along with the format=json GET parameter.
+I would like to improve the library to also make it easy to do the actually API calls.
+My current thought is to let the client remember the accessToken after it is retrieved and afterwards automatically append it to further calls along with the format=json GET parameter.
 
 If you have ideas of how that could be implemented let me know.
 
